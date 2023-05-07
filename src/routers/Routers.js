@@ -4,6 +4,8 @@ import Season from '../season/Season'
 import Main from '../main/Main'
 import styled from 'styled-components'
 import Signup from '../signup/Signup'
+import Board from '../board/Board'
+import Login from '../login/Login'
 
 function Routers() {
     return (
@@ -11,8 +13,8 @@ function Routers() {
             <Routes>
                 <Route path="/" element={<Season />} />
                 <Route path="/main" element={<Main />} />
-                <Route path="/board" />
-                <Route path="/login" />
+                <Route path="/board" element={<Board />} />
+                <Route path="/login" element={<Login />}/>
                 <Route path="/signup" element={<Signup />} />
             </Routes>
         </Background>
