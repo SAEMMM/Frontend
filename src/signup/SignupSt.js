@@ -32,7 +32,7 @@ export const SignLabel = styled.label`
 `
 
 export const SignInput = styled.input`
-    width: 340px;
+    width: ${props => props.type === 'userId' ? '270' : '340'}px;
     height: 40px;
     border: 1px solid silver;
     border-radius: 5px;

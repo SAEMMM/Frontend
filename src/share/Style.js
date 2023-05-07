@@ -32,7 +32,7 @@ export const End = styled.div`
 export const Button = styled.button`
     margin-left: 5px;
     width: ${props => props.fn === 'form' ? '60' : (props => props.fn === 'del' ? '60' : '100')}px;
-    height: 33px;
+    height: ${props => props.fn === 'idcheck' ? '43' : '33'}px;
     align-self:  ${props => props.fn === 'sign' ? 'center' : 'flex-end'};
     background-color: ${props => props.fn === 'form' ? '#3CB371' : (props => props.fn === 'del' ? '#CD5C5C' : (props => props.fn === 'sign' ? '#6495ED' : '#F5F5F5'))};
     color: ${props => props.fn === 'form' ? 'white' : (props => props.fn === 'del' ? 'white' : (props => props.fn === 'sign' ? 'white' : 'black'))};
