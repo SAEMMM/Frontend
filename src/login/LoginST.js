@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const SignupBox = styled.div`
+export const LoginBox = styled.div`
 margin-top: 20px;
 box-sizing: border-box;
 padding: 20px;
@@ -20,9 +20,29 @@ box-shadow: 5px 5px 10px 0px silver;
  }
 `
 
-export const SignupStyle = styled.span`
+export const LoginInputBox = styled.div`
+display: flex;
+flex-direction: column;
+`
+
+export const LoginLabel = styled.label`
+font-weight: bold;
+`
+
+export const LoginInput = styled.input`
+width: 340px;
+height: 40px;
+border: 1px solid silver;
+border-radius: 5px;
+::placeholder {
+    color: silver;
+}
+`
+
+export const LoginStyle = styled.span`
 &:hover {
     border-bottom: 1px solid grey;
     cursor: pointer;
+    font-weight: bold;
 }
 `
