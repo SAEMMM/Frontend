@@ -4,7 +4,7 @@ import useInput from '../hooks/useInput'
 import * as st from './SignupSt'
 import * as sst from '../share/Style'
 import { useQueryClient, useQuery, useMutation } from 'react-query'
-import { getUser, addUser, userCheck } from '../api/signupApi'
+import { getUser, addUser } from '../api/signupApi'
 
 function Signups() {
 
@@ -72,19 +72,20 @@ function Signups() {
 
     // 아이디 중복확인 클릭
     const onClickIdCheck = () => {
-        const [item] = users.filter(v => v.userId == userId)
+        const [item] = users?.filter(v => v.userId == userId)
         console.log('중복', item)
 
         if (userId == '') {
             alert('아이디를 입력해주세요')
-        } else if (item.userId == userId) {
+        } if (item.userId == userId) {  // ok
             alert('이미 사용중인 아이디입니다')
             setUserId('')
             setMsgId(false)
-        } else if (item.userId !== userId) {
+        } if (item.userId == undefined || item.userId == null) {
             alert('사용 가능한 아이디입니다')
             setUserId(userId)
         }
+        // 사용 가능한 아이디 수정 중..
     }
 
     // signupApi로 post
@@ -109,9 +110,8 @@ function Signups() {
         else {
             e.preventDefault()
             addUserMutation.mutate({ ninkname, userId, password })
-            alert('회원이 되신 것을 환영합니다!')
-            navigate('/')
-            // 로그인 페이지 구현되면 경로 바꿀 것!!
+            alert('환영합니다! 로그인 해주세요')
+            navigate('/login')
         }
     }
 

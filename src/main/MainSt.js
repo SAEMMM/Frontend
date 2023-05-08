@@ -18,6 +18,9 @@ export const SearchBox = styled.div`
         height: 90px;
         transition: all 0.5s;
     }
+    .spanBold {
+        font-weight: bold;
+    }
 `
 
 export const MainListBox = styled.div`
