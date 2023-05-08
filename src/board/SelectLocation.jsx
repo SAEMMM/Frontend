@@ -23,7 +23,7 @@ function SelectLocation(props) {
       <st.SelectStyle width="71%" height="50px" margintop="20px" value={location} onChange={handlechange}>
         <option value="null">지역 선택</option>
         {searchWhere.map(item =>
-          <option key={item.value} value={item.value}>{item.label}</option>
+          <option key={item.value} value={item.label}>{item.label}</option>
         )}
       </st.SelectStyle>
     </>
