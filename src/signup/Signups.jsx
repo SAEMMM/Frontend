@@ -72,7 +72,7 @@ function Signups() {
 
     // 아이디 중복확인 클릭
     const onClickIdCheck = () => {
-        const [item] = users.filter(v => v.userId == userId)
+        const [item] = users.filter(v => v.userId == userId && v !== undefined);
         console.log('중복', item)
 
         if (userId == '') {

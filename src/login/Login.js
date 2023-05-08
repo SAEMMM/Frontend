@@ -6,6 +6,8 @@ function Login() {
     return (
         <div>
             <NavBar />
+            {/* 이거 빼고 */}
+            {/* 버튼 추가 */}
             <Logins />
         </div>
     )
