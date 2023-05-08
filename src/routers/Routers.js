@@ -1,5 +1,5 @@
 import React from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 import Season from '../season/Season'
 import Main from '../main/Main'
 import styled from 'styled-components'

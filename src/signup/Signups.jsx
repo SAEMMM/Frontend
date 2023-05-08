@@ -1,14 +1,22 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import useInput from '../hooks/useInput'
 import * as st from './SignupSt'
 import * as sst from '../share/Style'
+import { useQueryClient, useQuery, useMutation } from 'react-query'
+import { getUser, addUser, userCheck } from '../api/signupApi'
 
 function Signups() {
 
+    let navigate = useNavigate()
+
+    const queryClient = useQueryClient()
+    const { data: users } = useQuery('users', getUser)
+
     // 정보 입력 input state
-    const [checkNickname, onChangeNickname] = useInput()
-    const [checkId, setCheckId] = useState('')
-    const [checkPw, setCheckPw] = useState('')
+    const [ninkname, onChangeNickname] = useInput()
+    const [userId, setUserId] = useState('')
+    const [password, setPassword] = useState('')
     const [doubleCheckPw, setDoubleCheckPw] = useState('')
 
     // 오류 메세지 state
@@ -21,12 +29,12 @@ function Signups() {
     const [isPw, setIsPw] = useState(false)
     const [isDoublePw, setIsDoublePw] = useState(false)
 
+    // 아이디 입력
     const onChangeId = (e) => {
-        const checkId = e.target.value
-        setCheckId(checkId)
+        setUserId(e.target.value)
 
         const idRegExp = /^[a-z0-9]{6,18}$/
-        if (!idRegExp.test(checkId)) {
+        if (!idRegExp.test(userId)) {
             setMsgId("🚨 6-18자의 소문자 또는 숫자만 입력해 주세요")
             setIsId(false)
         } else {
@@ -35,12 +43,12 @@ function Signups() {
         }
     }
 
+    // 비밀번호 입력
     const onChangePw = (e) => {
-        const checkPw = e.target.value;
-        setCheckPw(checkPw)
+        setPassword(e.target.value)
 
         const passwordRegExp = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$/
-        if (!passwordRegExp.test(checkPw)) {
+        if (!passwordRegExp.test(password)) {
             setMsgPw("🚨 영어, 숫자, 특수문자를 8자 이상 입력해주세요")
             setIsPw(false)
         } else {
@@ -49,16 +57,61 @@ function Signups() {
         }
     }
 
+    // 비밀번호 확인
     const onChangeDoubleCheckPw = (e) => {
-        const doubleCheckPw = e.target.value
-        setDoubleCheckPw(doubleCheckPw)
+        setDoubleCheckPw(e.target.value)
 
-        if (checkPw !== doubleCheckPw) {
+        if (password !== doubleCheckPw) {
             setMsgDoublePw("🚨 비밀번호가 다릅니다")
             setIsDoublePw(false)
         } else {
             setMsgDoublePw("🙆 비밀번호가 같습니다")
             setIsDoublePw(true)
+        }
+    }
+
+    // 아이디 중복확인 클릭
+    const onClickIdCheck = () => {
+        const [item] = users.filter(v => v.userId == userId)
+        console.log('중복', item)
+
+        if (userId == '') {
+            alert('아이디를 입력해주세요')
+        } else if (item.userId == userId) {
+            alert('이미 사용중인 아이디입니다')
+            setUserId('')
+            setMsgId(false)
+        } else if (item.userId !== userId) {
+            alert('사용 가능한 아이디입니다')
+            setUserId(userId)
+        }
+    }
+
+    // signupApi로 post
+    const addUserMutation = useMutation(addUser, {
+        onSuccess: () => {
+            // Invalidates cache and refetch
+            queryClient.invalidateQueries('users')
+        }
+    })
+
+    // 회원가입 정보 전송
+    const handlesubmit = (e) => {
+        if (ninkname === false || ninkname == '') {
+            alert('닉네임을 확인해주세요')
+        } else if (userId === false || userId == '') {
+            alert('아이디를 확인해주세요')
+        } else if (password === false || password == '') {
+            alert('비밀번호를 확인해주세요')
+        } else if (password !== doubleCheckPw || doubleCheckPw == '') {
+            alert('비밀번호를 다시 확인해주세요')
+        }
+        else {
+            e.preventDefault()
+            addUserMutation.mutate({ ninkname, userId, password })
+            alert('회원이 되신 것을 환영합니다!')
+            navigate('/')
+            // 로그인 페이지 구현되면 경로 바꿀 것!!
         }
     }
 
@@ -68,20 +121,23 @@ function Signups() {
             <st.SignInputBox>
                 <st.SignLabel htmlFor='putNickname'>닉네임</st.SignLabel>
                 <st.SignInput id='putNickname' placeholder='닉네임을 입력해주세요'
-                    value={checkNickname} onChange={onChangeNickname} />
+                    value={ninkname} onChange={onChangeNickname} />
             </st.SignInputBox>
 
             <st.SignInputBox>
                 <st.SignLabel htmlFor='putId'>아이디</st.SignLabel>
-                <st.SignInput id='putId' placeholder='아이디는 영어, 숫자 포함 6~18자입니다'
-                    value={checkId} onChange={onChangeId} />
+                <sst.Row>
+                    <st.SignInput type="userId" id='putId' placeholder='아이디는 영어, 숫자 포함 6~18자입니다'
+                        value={userId} onChange={onChangeId} />
+                    <sst.Button fn="idcheck" onClick={onClickIdCheck}>중복확인</sst.Button>
+                </sst.Row>
                 <st.SingCheckMsg>{msgId}</st.SingCheckMsg>
             </st.SignInputBox>
 
             <st.SignInputBox>
                 <st.SignLabel htmlFor='putPw'>비밀번호</st.SignLabel>
                 <st.SignInput type="password" id='putPw' placeholder='비밀번호는 영어, 숫자, 특수문자 포함 8~20자입니다'
-                    value={checkPw} onChange={onChangePw} />
+                    value={password} onChange={onChangePw} />
                 <st.SingCheckMsg>{msgPw}</st.SingCheckMsg>
             </st.SignInputBox>
 
@@ -92,7 +148,7 @@ function Signups() {
                 <st.SingCheckMsg>{msgDoublePw}</st.SingCheckMsg>
             </st.SignInputBox>
 
-            <sst.Button fn="sign">회원가입 완료</sst.Button>
+            <sst.Button fn="sign" onClick={handlesubmit}>회원가입 완료</sst.Button>
         </st.SignupBox>
     )
 }
