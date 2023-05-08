@@ -16,6 +16,7 @@ function Signups() {
     const errRef = useRef()
 
     const [nickname, setNickname] = useState('')
+    const [nicknameFocus, setNicknameFocus] = useState(false)
 
     const [userId, setUserId] = useState('')
     const [validuserId, setValiduserId] = useState(false)
@@ -98,10 +99,16 @@ function Signups() {
             <h1 className='SignBoxH1'>회원가입 🎉</h1>
             <st.SignInputBox>
                 <st.SignLabel htmlFor='nickname'>닉네임
-                    <span className={setNickname ? "valid" : "hide"}>✔</span>
+                    <span className={nickname == '' ? "valid" : "hide"}>🚨</span>
+                    <span className={nickname.length >= 1 ? "valid" : "hide"}>✔</span>
                 </st.SignLabel>
                 <st.SignInput id='nickname'
-                    value={nickname} onChange={(e) => setNickname(e.target.value)} required />
+                    ref={userRef}
+                    value={nickname}
+                    onChange={(e) => setNickname(e.target.value)}
+                    required
+                    onFocus={() => setNicknameFocus(true)}
+                    onBlur={() => setNicknameFocus(false)} />
             </st.SignInputBox>
 
             <st.SignInputBox>
@@ -112,7 +119,6 @@ function Signups() {
                 <sst.Row>
                     <st.SignInput type="userId" id='userId'
                         value={userId}
-                        ref={userRef}
                         autoComplete='off'
                         onChange={(e) => setUserId(e.target.value)}
                         required
@@ -162,7 +168,7 @@ function Signups() {
                 </st.SingCheckMsg>
             </st.SignInputBox>
 
-            <sst.Button disabled={!validuserId || !validPw || !validMatch ? true : false} fn="sign" onClick={handleSubmit}>회원가입 완료</sst.Button>
+            <sst.Button disabled={!nickname || !validuserId || !validPw || !validMatch ? true : false} fn="sign" onClick={handleSubmit}>회원가입 완료</sst.Button>
         </st.SignupBox>
     )
 }
