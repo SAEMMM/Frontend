@@ -12,7 +12,7 @@ function SelectSeason() {
 
   return (
     <>
-        <st.SelectStyle width="70%" height="50px" margintop="20px">
+        <st.SelectStyle width="71%" height="50px" margintop="20px">
             <option value="null">계절 선택</option>
             {searchSeason.map(item => 
             <option key={item.value} value={item.value}>{item.label}</option>

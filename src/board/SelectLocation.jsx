@@ -14,7 +14,7 @@ function SelectLocation() {
 
   return (
     <>
-        <st.SelectStyle width="70%" height="50px" margintop="20px">
+        <st.SelectStyle width="71%" height="50px" margintop="20px">
             <option value="null">지역 선택</option>
             {searchWhere.map(item => 
             <option key={item.value} value={item.value}>{item.label}</option>
