@@ -1,40 +1,14 @@
 {
-  "users": [
-    {
-      "ninkname": "닉네임1",
-      "userId": "abcd1234",
-      "password": "react@1234",
-      "id": 1
-    },
-    {
-      "ninkname": "닉네임2",
-      "userId": "test1234",
-      "password": "test@1234",
-      "id": 2
-    },
-    {
-      "ninkname": "ㅁㄴㅇㄻㄴㅇㄹ",
-      "userId": "asdf323",
-      "password": "asdf1234!!",
-      "id": 3
-    }
-  ],
-  "idCheck": [
-    {
-      "userId": "abcd1234",
-      "id": 1
-    },
-    {
-      "userId": "test1234",
-      "id": 2
-    }
-  ],
+  "users": [],
   "board": [
     {
-      "title": "test",
-      "image": "",
-      "content": "",
-      "id": 1
+      "title": "테스트거든여",
+      "content": "테스트입니다",
+      "placename": "테스트장소거든여",
+      "location": "경상도",
+      "season": "fall",
+      "star": "0",
+      "id": 3
     }
   ]
 }

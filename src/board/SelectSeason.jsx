@@ -12,7 +12,7 @@ function SelectSeason(props) {
     const searchSeason = [
         {value: "spring", label: "봄"},
         {value: "summer", label: "여름"},
-        {value: "autumn", label: "가을"},
+        {value: "fall", label: "가을"},
         {value: "winter", label: "겨울"},
     ]
 
