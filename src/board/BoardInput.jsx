@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import * as st from './BoardST'
+import * as sst from '../share/Style'
 import SelectLocation from './SelectLocation';
 import SelectStar from './SelectStar';
 import SelectSeason from './SelectSeason';
@@ -79,10 +80,10 @@ function BoardInput() {
                 onChange={onContentChangeHadler}
                 placeholder='내용을 작성해주세요' />
 
-            <div>
-                <button>작성완료</button>
-                <button>취소</button>
-            </div>
+            <st.Row>
+                <sst.Button fn="form">작성완료</sst.Button>
+                <sst.Button fn="del">취소</sst.Button>
+            </st.Row>
         </st.BodyStyle>
     )
 }

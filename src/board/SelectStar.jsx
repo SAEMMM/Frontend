@@ -13,14 +13,14 @@ function SelectStar() {
     ]
 
   return (
-    <div>
-        <st.SelectStyle  width="100%" height="50px">
+    <>
+        <st.SelectStyle width="71%" height="50px" margintop="20px">
             <option value="null">별점/비추 셀렉트</option>
             {searchStar.map(item => 
             <option key={item.value} value={item.value}>{item.label}</option>
             )}
         </st.SelectStyle>
-    </div>
+    </>
   )
 }
 
