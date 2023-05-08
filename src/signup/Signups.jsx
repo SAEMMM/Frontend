@@ -107,7 +107,7 @@ function Signups() {
             <st.SignInputBox>
                 <st.SignLabel htmlFor='userId'>아이디
                     <span className={validuserId ? "valid" : "hide"}>✔</span>
-                    <span className={validuserId || !userId ? "hide" : "invalid"}>😤</span>
+                    <span className={validuserId || !userId ? "hide" : "invalid"}>🚨</span>
                 </st.SignLabel>
                 <sst.Row>
                     <st.SignInput type="userId" id='userId'
@@ -123,14 +123,14 @@ function Signups() {
                     <sst.Button fn="idcheck">중복확인</sst.Button>
                 </sst.Row>
                 <st.SingCheckMsg id="uidnote" className={userIdFocus && userId && !validuserId ? "instructions" : "offscreen"}>
-                    😱 아이디는 6~18자의 소문자, 숫자입니다
+                    아이디는 6~18자의 소문자, 숫자입니다
                 </st.SingCheckMsg>
             </st.SignInputBox>
 
             <st.SignInputBox>
                 <st.SignLabel htmlFor='pw'>비밀번호
                     <span className={validPw ? "valid" : "hide"}>✔</span>
-                    <span className={validPw || !pw ? "hide" : "invalid"}>😤</span>
+                    <span className={validPw || !pw ? "hide" : "invalid"}>🚨</span>
                 </st.SignLabel>
                 <st.SignInput type="password" id='pw'
                     value={pw}
@@ -140,14 +140,14 @@ function Signups() {
                     onFocus={() => setPwFocus(true)}
                     onBlur={() => setPwFocus(false)} />
                 <st.SingCheckMsg id="pwnote" className={pwFocus && !validPw ? "instructions" : "offscreen"}>
-                    😱 비밀번호는 영어, 숫자, 특수문자 포함 8~20자입니다
+                    비밀번호는 대소문자, 숫자, 특수문자 포함 8~20자입니다
                 </st.SingCheckMsg>
             </st.SignInputBox>
 
             <st.SignInputBox>
                 <st.SignLabel htmlFor='putPwCheck'>비밀번호 확인
                     <span className={validMatch ? "valid" : "hide"}>✔</span>
-                    <span className={validMatch || !matchPw ? "hide" : "invalid"}>😤</span>
+                    <span className={validMatch || !matchPw ? "hide" : "invalid"}>🚨</span>
                 </st.SignLabel>
                 <st.SignInput type="password" id='putPwCheck'
                     value={matchPw}
@@ -158,7 +158,7 @@ function Signups() {
                     onFocus={() => setMatchFocus(true)}
                     onBlur={() => setMatchFocus(false)} />
                 <st.SingCheckMsg id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "offscreen"}>
-                    😱 비밀번호를 한번 더 입력해주세요
+                    비밀번호를 한번 더 입력해주세요
                 </st.SingCheckMsg>
             </st.SignInputBox>
 
