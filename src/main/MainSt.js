@@ -50,7 +50,7 @@ box-shadow: 5px 5px 10px 0px silver;
 
 export const Title = styled.div`
 .TitleH1 {
-    color: ${props => props.season === '봄' ? '#F08080' : (props => props.season === '여름' ? '#00BFFF' : (props => props.season === '가을' ? '#8B4513' : '#000000'))};
+    color: ${props => props.season === 'spring' ? '#F08080' : (props => props.season === 'summer' ? '#00BFFF' : (props => props.season === 'fall' ? '#8B4513' : '#000000'))};
     text-shadow: 2px 2px 0px #FFFFFF, 4px 4px 0px rgba(0,0,0,0.15);
 }
 `
