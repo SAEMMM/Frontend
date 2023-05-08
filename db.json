@@ -1,5 +1,18 @@
 {
-  "users": [],
+  "users": [
+    {
+      "nickname": "테스트에요",
+      "userId": "test1234",
+      "pw": "Test1234!",
+      "id": 1
+    },
+    {
+      "nickname": "테스트에요",
+      "userId": "test1234",
+      "pw": "Test1234!",
+      "id": 2
+    }
+  ],
   "board": [
     {
       "title": "테스트거든여",
