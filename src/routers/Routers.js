@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import Season from '../season/Season'
 import Main from '../main/Main'
@@ -8,6 +8,18 @@ import Board from '../board/Board'
 import Login from '../login/Login'
 
 function Routers() {
+
+    const navigate = useNavigate();
+    const isLoggedIn = !!localStorage.getItem('refreshToken');
+    
+    const goBoard = () => {
+        if (isLoggedIn) {
+            navigate('/board');
+        } else {
+            navigate('/login');
+        }
+    }
+
     return (
         <Background>
             <Routes>
@@ -18,7 +30,7 @@ function Routers() {
                     <Route path="?season=fall" element={<div>가을</div>} />
                     <Route path="?season=winter" element={<div>겨울</div>} />
                 </Route>
-                <Route path="/board" element={<Board />} />
+                <Route path="/board" element={<Board />} onClick={goBoard} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
             </Routes>
