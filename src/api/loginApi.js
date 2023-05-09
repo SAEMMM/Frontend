@@ -6,11 +6,14 @@ const loginApi = axios.create({
 
 export const login = async (userId, password) => {
     try {
-        const response = await loginApi.post("/api/user/login", {userId, password});
+        const response = await loginApi.post("/api/user/login", { userId, password });
         const accessToken = response.data.Authorization;
         const refreshToken = response.data.RefreshToken;
         localStorage.setItem("refreshToken", refreshToken);
         document.cookie = `accessToken=${accessToken}`;
         return accessToken;
-
+    } catch {
+        
+    }
+}
 export default loginApi;
