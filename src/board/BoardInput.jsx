@@ -35,32 +35,23 @@ function BoardInput() {
     const submitHandler = async (e) => {
         e.preventDefault();
 
-        //현재 json서버에서는 불가능
-        // const formData = new FormData();
-        // formData.append('title', title);
-        // formData.append('content', content);
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('content', content);
+        formData.append('star', star);
+        formData.append('location', location);
+        formData.append('placename', placename);
+        formData.append('season', season);
 
-        // if (image) {
-        //     formData.append('image', image.raw);
-        // }
-
-        const newBoard = {
-            title,
-            content,
-            placename,
-            location,
-            season,
-            star,
+        if (image) {
+            formData.append('image', image.raw);
         }
 
-        await mutation.mutateAsync(newBoard);
+        await mutation.mutateAsync(formData);
         resetTitle('');
         resetContent('');
         resetPlace('');
         setImage(null);
-        // setLocation('');
-        // setSeason('');
-        // setStar('');
     }
 
     const handleImageChange = (e) => {

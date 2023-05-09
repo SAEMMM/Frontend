@@ -6,7 +6,7 @@ import * as sst from '../share/Style'
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9_]{6,18}$/
 const PW_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/
-const REGISTER_URL = '/users'
+const REGISTER_URL = '/api/user/signup'
 
 function Signups() {
 
@@ -22,7 +22,7 @@ function Signups() {
     const [validuserId, setValiduserId] = useState(false)
     const [userIdFocus, setUserIdFocus] = useState(false)
 
-    const [pw, setPw] = useState('')
+    const [password, setPassword] = useState('')
     const [validPw, setValidPw] = useState(false)
     const [pwFocus, setPwFocus] = useState(false)
 
@@ -44,26 +44,26 @@ function Signups() {
     }, [userId])
 
     useEffect(() => {
-        const result = PW_REGEX.test(pw)
+        const result = PW_REGEX.test(password)
         console.log(result)
-        console.log(pw)
+        console.log(password)
         setValidPw(result)
-        const match = pw === matchPw
+        const match = password === matchPw
         setValidMatch(match)
-    }, [pw, matchPw])
+    }, [password, matchPw])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         // if button enabled with JS hack
         const v1 = USER_REGEX.test(userId)
-        const v2 = PW_REGEX.test(pw)
+        const v2 = PW_REGEX.test(password)
         if (!v1 || !v2) {
             alert('아이디와 비밀번호를 조건에 맞게 입력해주세요!')
             return
         }
         try {
             const response = await axios.post(REGISTER_URL,
-                JSON.stringify({ nickname, userId, pw }),
+                JSON.stringify({ nickname, userId, password }),
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
@@ -130,11 +130,11 @@ function Signups() {
             <st.SignInputBox>
                 <st.SignLabel htmlFor='pw'>비밀번호
                     <span className={validPw ? "valid" : "hide"}>✔</span>
-                    <span className={validPw || !pw ? "hide" : "invalid"}>🚨</span>
+                    <span className={validPw || !password ? "hide" : "invalid"}>🚨</span>
                 </st.SignLabel>
                 <st.SignInput type="password" id='pw'
-                    value={pw}
-                    onChange={(e) => setPw(e.target.value)} required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)} required
                     aria-invalid={validPw ? "false" : "true"}
                     aria-describedby='pwnote'
                     onFocus={() => setPwFocus(true)}

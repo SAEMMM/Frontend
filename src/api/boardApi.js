@@ -5,16 +5,16 @@ const boardApi = axios.create({
 })
 
 export const getBoard = async () => {
-    const response = await boardApi.get('/board')
+    const response = await boardApi.get('/api/board')
     return response.data
 }
 
-export const addPost = async (board) => {
-    return await boardApi.post("/board", board);
+export const addPost = async (formData) => {
+    return await boardApi.post("/api/board", formData);
 }
 
 export const deleteBoard = async ({ id }) => {
-    return await boardApi.delete(`/board/${id}`, id)
+    return await boardApi.delete(`/api/board/${id}`, id)
 }
 
 export default boardApi
