@@ -4,15 +4,6 @@ const signupApi = axios.create({
     baseURL: "http://13.124.170.137:8080/"
 })
 
-export const getUser = async () => {
-    const response = await signupApi.get('/users')
-    return response.data
-}
-
-export const addUser = async (user) => {
-    return await signupApi.post('/users', user)
-}
-
 export default signupApi
 
 // export const accessClient = axios.create({
