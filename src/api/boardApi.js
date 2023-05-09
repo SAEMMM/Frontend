@@ -1,12 +1,12 @@
 import axios from "axios";
 
 const boardApi = axios.create({
-    baseURL: "http://localhost:4000"
+    baseURL: process.env.REACT_APP_URL
 })
 
 export const getBoard = async () => {
-    const response = await boardApi.get('/board')
-    return response.data
+    const response = await boardApi.get('/api/boards?season=봄')
+    return response.data.data
 }
 
 export const addPost = async (board) => {
@@ -19,7 +19,7 @@ export const addPost = async (board) => {
 }
 
 export const deleteBoard = async ({ id }) => {
-    return await boardApi.delete(`/board/${id}`, id)
+    return await boardApi.delete(`/boards/${id}`, id)
 }
 
 export default boardApi

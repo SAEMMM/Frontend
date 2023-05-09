@@ -5,6 +5,7 @@ import * as st from './NavbarST'
 function NavBar() {
 
     const navigate = useNavigate();
+    // api/boards?season=string&location=string&star=string&keyword=string
 
     return (
             <st.NavBox>

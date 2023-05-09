@@ -17,6 +17,12 @@
       "userId": "test2222",
       "pw": "Test2222!",
       "id": 3
+    },
+    {
+      "nickname": "ㅇ",
+      "userId": "test123",
+      "pw": "Test123!",
+      "id": 4
     }
   ],
   "board": [
@@ -28,6 +34,42 @@
       "season": "fall",
       "star": "0",
       "id": 3
+    },
+    {
+      "title": "테스트거든여",
+      "content": "테스트입니다",
+      "placename": "테스트장소거든여",
+      "location": "서울/경기/인천",
+      "season": "spring",
+      "star": "5",
+      "id": 1
+    },
+    {
+      "title": "테스트거든여",
+      "content": "테스트입니다",
+      "placename": "테스트장소거든여",
+      "location": "제주도",
+      "season": "summer",
+      "star": "2",
+      "id": 2
+    },
+    {
+      "title": "테스트거든여",
+      "content": "테스트입니다",
+      "placename": "테스트장소거든여",
+      "location": "강원도",
+      "season": "fall",
+      "star": "4",
+      "id": 4
+    },
+    {
+      "title": "테스트거든여",
+      "content": "테스트입니다",
+      "placename": "테스트장소거든여",
+      "location": "전라도",
+      "season": "winter",
+      "star": "3",
+      "id": 5
     }
   ]
 }
