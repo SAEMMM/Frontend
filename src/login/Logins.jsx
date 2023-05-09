@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router'
 import * as st from './LoginST'
 import * as sst from '../share/Style'
 import axios from "axios";
+import { useMutation } from 'react-query';
+import { login } from '../api/loginApi';
 
 function Logins() {
     const navigation = useNavigate();
@@ -10,23 +12,15 @@ function Logins() {
     const [userId, setuserId] = useState('');
     const [password, setPassword] = useState('');
 
-    axios.defaults.baseURL = 'http://13.124.170.137:8080/';
+    const mutation = useMutation(login)
 
-    const loginHandler = () => {
-        axios.post('/api/user/login', {
+    const submitHandler = async (e) => {
+        e.preventDefault();
+        const userData = {
             userId,
-            password,
-        })
-            .then(( data ) => {
-                axios.defaults.headers.common[`Authorization`] = `Bearer ${data.accessToken}`;
-                localStorage.setItem('refreshToken', data.refreshToken); //localStorage.setItem("key","value"), localStorage.getItem(key)
-                alert('로그인 성공')
-            })
-            .catch((error) => {
-                if (error.response.statusCode === 401) {
-                    alert('회원정보를 찾을 수 없습니다')
-                }
-            })
+            password
+        }
+        await mutation.mutateAsync(userData)
     }
 
     return (
@@ -54,7 +48,7 @@ function Logins() {
                 />
             </st.LoginInputBox>
 
-            <sst.Button fn="sign" onClick={loginHandler}>Login</sst.Button>
+            <sst.Button fn="sign" onClick={submitHandler}>Login</sst.Button>
 
             <span>회원이 아니시라면?</span>
             <st.LoginStyle onClick={() => navigation("/signup")}>회원가입하러가기</st.LoginStyle>
