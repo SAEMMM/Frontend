@@ -13,11 +13,11 @@ export const SearchBox = styled.div`
     border-radius: 5px;
     -webkit-box-shadow: 5px 5px 10px 0px silver; 
     box-shadow: 5px 5px 10px 0px silver;
-    &:hover {
+    /* &:hover {
         width: 1000px;
         height: 90px;
         transition: all 0.5s;
-    }
+    } */
     .spanBold {
         font-weight: bold;
     }
