@@ -10,7 +10,7 @@ import Login from '../login/Login'
 function Routers() {
 
     const navigate = useNavigate();
-    const isLoggedIn = !!localStorage.get('refreshToken');
+    const isLoggedIn = !!localStorage.getItem('refreshToken');
     
     const goBoard = () => {
         if (isLoggedIn) {
