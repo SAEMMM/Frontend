@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import * as st from './MainSt'
 import * as sst from '../share/Style'
+import axios from '../api/boardApi'
 
 function MainSearch() {
 
@@ -20,8 +21,23 @@ function MainSearch() {
         setStarRadio(e.target.value)
     }
 
-    console.log('별점순:', starRadio)
-    console.log('위치선택:', selectWhere.label)
+    const [keyword, setKeyword] = useState('')
+
+    const searchSubmit = async (e) => {
+        e.preventDefault()
+        let searchStar = starRadio
+        let searchWhere = selectWhere
+        let searchKeyword = keyword
+
+        try {
+            const response = await axios.get('/api/boards?season=봄')
+            console.log(response.data)
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    console.log('별점순:', starRadio, '위치선택:', selectWhere.label, '키워드:', keyword)
 
     return (
         <st.SearchBox>
@@ -36,8 +52,8 @@ function MainSearch() {
                 <sst.SelectStyle options={searchWhere} onChange={setSelectWhere} />
             </div>
             <sst.Row>
-                <sst.Column><span className='spanBold'>키워드 검색</span> <sst.Input /></sst.Column>
-                <sst.Button>검색하기</sst.Button>
+                <sst.Column><span className='spanBold'>키워드 검색</span> <sst.Input value={keyword} onChange={(e) => setKeyword(e.target.value)} /></sst.Column>
+                <sst.Button onClick={() => searchSubmit()}>검색하기</sst.Button>
             </sst.Row>
         </st.SearchBox>
     )
