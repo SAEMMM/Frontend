@@ -9,17 +9,12 @@ export const getBoard = async () => {
     return response.data.data
 }
 
-export const addPost = async (board) => {
-    try {
-        const response = await boardApi.post("/board", board);
-        return response.data;
-    } catch (error) {
-        console.error(error);
-    }
+export const addPost = async (formData) => {
+    return await boardApi.post("/api/board", formData);
 }
 
 export const deleteBoard = async ({ id }) => {
-    return await boardApi.delete(`/boards/${id}`, id)
+    return await boardApi.delete(`/api/board/${id}`, id)
 }
 
 export default boardApi

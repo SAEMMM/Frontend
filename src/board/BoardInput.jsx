@@ -10,9 +10,9 @@ import useInput from '../hooks/useInput';
 
 function BoardInput() {
 
-    const [title, titleHandler] = useInput('')
-    const [content, contentHandler] = useInput('')
-    const [placename, placenameHandler] = useInput('')
+    const [title, titleHandler, resetTitle] = useInput('')
+    const [content, contentHandler, resetContent] = useInput('')
+    const [placename, placenameHandler, resetPlace] = useInput('')
     const [image, setImage] = useState(null);
     const [location, setLocation] = useState('');
     const [season, setSeason] = useState('');
@@ -34,31 +34,24 @@ function BoardInput() {
 
     const submitHandler = async (e) => {
         e.preventDefault();
-        
-        //현재 json서버에서는 불가능
-        // const formData = new FormData();
-        // formData.append('title', title);
-        // formData.append('content', content);
 
-        // if (image) {
-        //     formData.append('image', image.raw);
-        // }
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('content', content);
+        formData.append('star', star);
+        formData.append('location', location);
+        formData.append('placename', placename);
+        formData.append('season', season);
 
-        const newBoard = {
-            title,
-            content,
-            placename,
-            location,
-            season,
-            star,
+        if (image) {
+            formData.append('image', image.raw);
         }
 
-        try {
-            await mutation.mutateAsync(newBoard)
-            console.log('게시물 전송 성공')
-        } catch (error) {
-            console.log('게시물 전송 실패')
-        }
+        await mutation.mutateAsync(formData);
+        resetTitle('');
+        resetContent('');
+        resetPlace('');
+        setImage(null);
     }
 
     const handleImageChange = (e) => {

@@ -13,9 +13,4 @@ export const login = async (userId, password) => {
         document.cookie = `accessToken=${accessToken}`;
         return accessToken;
 
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-export default loginApi
+export default loginApi;
