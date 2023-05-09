@@ -1,154 +1,168 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import useInput from '../hooks/useInput'
+import axios from '../api/signupApi'
 import * as st from './SignupSt'
 import * as sst from '../share/Style'
-import { useQueryClient, useQuery, useMutation } from 'react-query'
-import { getUser, addUser } from '../api/signupApi'
+
+const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9_]{6,18}$/
+const PW_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/
+const REGISTER_URL = '/users'
 
 function Signups() {
 
     let navigate = useNavigate()
 
-    const queryClient = useQueryClient()
-    const { data: users } = useQuery('users', getUser)
+    const userRef = useRef()
+    const errRef = useRef()
 
-    // 정보 입력 input state
-    const [ninkname, onChangeNickname] = useInput()
+    const [nickname, setNickname] = useState('')
+    const [nicknameFocus, setNicknameFocus] = useState(false)
+
     const [userId, setUserId] = useState('')
-    const [password, setPassword] = useState('')
-    const [doubleCheckPw, setDoubleCheckPw] = useState('')
+    const [validuserId, setValiduserId] = useState(false)
+    const [userIdFocus, setUserIdFocus] = useState(false)
 
-    // 오류 메세지 state
-    const [msgId, setMsgId] = useState('')
-    const [msgPw, setMsgPw] = useState('')
-    const [msgDoublePw, setMsgDoublePw] = useState('')
+    const [pw, setPw] = useState('')
+    const [validPw, setValidPw] = useState(false)
+    const [pwFocus, setPwFocus] = useState(false)
 
-    // 유효성 검사 state
-    const [isId, setIsId] = useState(false)
-    const [isPw, setIsPw] = useState(false)
-    const [isDoublePw, setIsDoublePw] = useState(false)
+    const [matchPw, setMatchPw] = useState('')
+    const [validMatch, setValidMatch] = useState(false)
+    const [matchFocus, setMatchFocus] = useState(false)
 
-    // 아이디 입력
-    const onChangeId = (e) => {
-        setUserId(e.target.value)
+    const [success, setSuccess] = useState(false)
 
-        const idRegExp = /^[a-z0-9]{6,18}$/
-        if (!idRegExp.test(userId)) {
-            setMsgId("🚨 6-18자의 소문자 또는 숫자만 입력해 주세요")
-            setIsId(false)
-        } else {
-            setMsgId("🙆 사용가능한 아이디입니다")
-            setIsId(true)
+    useEffect(() => {
+        userRef.current.focus()
+    }, [])
+
+    useEffect(() => {
+        const result = USER_REGEX.test(userId)
+        console.log(result)
+        console.log(userId)
+        setValiduserId(result)
+    }, [userId])
+
+    useEffect(() => {
+        const result = PW_REGEX.test(pw)
+        console.log(result)
+        console.log(pw)
+        setValidPw(result)
+        const match = pw === matchPw
+        setValidMatch(match)
+    }, [pw, matchPw])
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        // if button enabled with JS hack
+        const v1 = USER_REGEX.test(userId)
+        const v2 = PW_REGEX.test(pw)
+        if (!v1 || !v2) {
+            alert('아이디와 비밀번호를 조건에 맞게 입력해주세요!')
+            return
         }
-    }
-
-    // 비밀번호 입력
-    const onChangePw = (e) => {
-        setPassword(e.target.value)
-
-        const passwordRegExp = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$/
-        if (!passwordRegExp.test(password)) {
-            setMsgPw("🚨 영어, 숫자, 특수문자를 8자 이상 입력해주세요")
-            setIsPw(false)
-        } else {
-            setMsgPw("🙆 사용가능한 비밀번호입니다")
-            setIsPw(true)
-        }
-    }
-
-    // 비밀번호 확인
-    const onChangeDoubleCheckPw = (e) => {
-        setDoubleCheckPw(e.target.value)
-
-        if (password !== doubleCheckPw) {
-            setMsgDoublePw("🚨 비밀번호가 다릅니다")
-            setIsDoublePw(false)
-        } else {
-            setMsgDoublePw("🙆 비밀번호가 같습니다")
-            setIsDoublePw(true)
-        }
-    }
-
-    // 아이디 중복확인 클릭
-    const onClickIdCheck = () => {
-        const [item] = users?.filter(v => v.userId == userId)
-        console.log('중복', item)
-
-        if (userId == '') {
-            alert('아이디를 입력해주세요')
-        } if (item.userId == userId) {  // ok
-            alert('이미 사용중인 아이디입니다')
-            setUserId('')
-            setMsgId(false)
-        } if (item.userId == undefined || item.userId == null) {
-            alert('사용 가능한 아이디입니다')
-            setUserId(userId)
-        }
-        // 사용 가능한 아이디 수정 중..
-    }
-
-    // signupApi로 post
-    const addUserMutation = useMutation(addUser, {
-        onSuccess: () => {
-            // Invalidates cache and refetch
-            queryClient.invalidateQueries('users')
-        }
-    })
-
-    // 회원가입 정보 전송
-    const handlesubmit = (e) => {
-        if (ninkname === false || ninkname == '') {
-            alert('닉네임을 확인해주세요')
-        } else if (userId === false || userId == '') {
-            alert('아이디를 확인해주세요')
-        } else if (password === false || password == '') {
-            alert('비밀번호를 확인해주세요')
-        } else if (password !== doubleCheckPw || doubleCheckPw == '') {
-            alert('비밀번호를 다시 확인해주세요')
-        }
-        else {
-            e.preventDefault()
-            addUserMutation.mutate({ ninkname, userId, password })
-            alert('환영합니다! 로그인 해주세요')
+        try {
+            const response = await axios.post(REGISTER_URL,
+                JSON.stringify({ nickname, userId, pw }),
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true
+                }
+            )
+            console.log(response.data)
+            console.log(response.accessToken)
+            console.log(JSON.stringify(response))
+            setSuccess(true)
+            alert('회원이 되신 것을 환영합니다!')
             navigate('/login')
+            // clear input fields
+        } catch (err) {
+            if (!err?.response) {
+                alert('서버의 응답이 없습니다')
+            } else if (err.response?.status === 409) {
+                alert('중복된 아이디입니다')
+            } else {
+                alert('회원가입에 실패했습니다')
+            }
+            errRef.current.focus()
         }
     }
 
     return (
         <st.SignupBox>
+            
             <h1 className='SignBoxH1'>회원가입 🎉</h1>
             <st.SignInputBox>
-                <st.SignLabel htmlFor='putNickname'>닉네임</st.SignLabel>
-                <st.SignInput id='putNickname' placeholder='닉네임을 입력해주세요'
-                    value={ninkname} onChange={onChangeNickname} />
+                <st.SignLabel htmlFor='nickname'>닉네임
+                    <span className={nickname == '' ? "valid" : "hide"}>🚨</span>
+                    <span className={nickname.length >= 1 ? "valid" : "hide"}>✔</span>
+                </st.SignLabel>
+                <st.SignInput id='nickname'
+                    ref={userRef}
+                    value={nickname}
+                    onChange={(e) => setNickname(e.target.value)}
+                    required
+                    onFocus={() => setNicknameFocus(true)}
+                    onBlur={() => setNicknameFocus(false)} />
             </st.SignInputBox>
 
             <st.SignInputBox>
-                <st.SignLabel htmlFor='putId'>아이디</st.SignLabel>
+                <st.SignLabel htmlFor='userId'>아이디
+                    <span className={validuserId ? "valid" : "hide"}>✔</span>
+                    <span className={validuserId || !userId ? "hide" : "invalid"}>🚨</span>
+                </st.SignLabel>
                 <sst.Row>
-                    <st.SignInput type="userId" id='putId' placeholder='아이디는 영어, 숫자 포함 6~18자입니다'
-                        value={userId} onChange={onChangeId} />
-                    <sst.Button fn="idcheck" onClick={onClickIdCheck}>중복확인</sst.Button>
+                    <st.SignInput id='userId'
+                        value={userId}
+                        autoComplete='off'
+                        onChange={(e) => setUserId(e.target.value)}
+                        required
+                        aria-invalid={validuserId ? "false" : "true"}
+                        aria-describedby='uidnote'
+                        onFocus={() => setUserIdFocus(true)}
+                        onBlur={() => setUserIdFocus(false)} />
                 </sst.Row>
-                <st.SingCheckMsg>{msgId}</st.SingCheckMsg>
+                <st.SingCheckMsg id="uidnote" className={userIdFocus && userId && !validuserId ? "instructions" : "offscreen"}>
+                    아이디는 6~18자의 소문자, 숫자입니다
+                </st.SingCheckMsg>
             </st.SignInputBox>
 
             <st.SignInputBox>
-                <st.SignLabel htmlFor='putPw'>비밀번호</st.SignLabel>
-                <st.SignInput type="password" id='putPw' placeholder='비밀번호는 영어, 숫자, 특수문자 포함 8~20자입니다'
-                    value={password} onChange={onChangePw} />
-                <st.SingCheckMsg>{msgPw}</st.SingCheckMsg>
+                <st.SignLabel htmlFor='pw'>비밀번호
+                    <span className={validPw ? "valid" : "hide"}>✔</span>
+                    <span className={validPw || !pw ? "hide" : "invalid"}>🚨</span>
+                </st.SignLabel>
+                <st.SignInput type="password" id='pw'
+                    value={pw}
+                    onChange={(e) => setPw(e.target.value)} required
+                    aria-invalid={validPw ? "false" : "true"}
+                    aria-describedby='pwnote'
+                    onFocus={() => setPwFocus(true)}
+                    onBlur={() => setPwFocus(false)} />
+                <st.SingCheckMsg id="pwnote" className={pwFocus && !validPw ? "instructions" : "offscreen"}>
+                    비밀번호는 대소문자, 숫자, 특수문자 포함 8~20자입니다
+                </st.SingCheckMsg>
             </st.SignInputBox>
 
             <st.SignInputBox>
-                <st.SignLabel htmlFor='putPwCheck'>비밀번호 확인</st.SignLabel>
-                <st.SignInput type="password" id='putPwCheck' placeholder='비밀번호를 한번 더 입력해주세요'
-                    value={doubleCheckPw} onChange={onChangeDoubleCheckPw} />
-                <st.SingCheckMsg>{msgDoublePw}</st.SingCheckMsg>
+                <st.SignLabel htmlFor='putPwCheck'>비밀번호 확인
+                    <span className={validMatch ? "valid" : "hide"}>✔</span>
+                    <span className={validMatch || !matchPw ? "hide" : "invalid"}>🚨</span>
+                </st.SignLabel>
+                <st.SignInput type="password" id='putPwCheck'
+                    value={matchPw}
+                    onChange={(e) => setMatchPw(e.target.value)}
+                    required
+                    aria-invalid={validMatch ? "false" : "true"}
+                    aria-describedby='confirmnote'
+                    onFocus={() => setMatchFocus(true)}
+                    onBlur={() => setMatchFocus(false)} />
+                <st.SingCheckMsg id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "offscreen"}>
+                    비밀번호를 한번 더 입력해주세요
+                </st.SingCheckMsg>
             </st.SignInputBox>
 
-            <sst.Button fn="sign" onClick={handlesubmit}>회원가입 완료</sst.Button>
+            <sst.Button fn="sign" onClick={handleSubmit}>회원가입 완료</sst.Button>
         </st.SignupBox>
     )
 }
