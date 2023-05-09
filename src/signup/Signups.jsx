@@ -6,7 +6,7 @@ import * as sst from '../share/Style'
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9_]{6,18}$/
 const PW_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/
-const REGISTER_URL = '/users'
+const REGISTER_URL = '/api/user/signup'
 
 function Signups() {
 
@@ -63,7 +63,7 @@ function Signups() {
         }
         try {
             const response = await axios.post(REGISTER_URL,
-                JSON.stringify({ nickname, userId, pw }),
+                JSON.stringify({ nickname, userId, password:pw }),
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
