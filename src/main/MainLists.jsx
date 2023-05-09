@@ -3,12 +3,18 @@ import * as st from './MainSt'
 import * as sst from '../share/Style'
 import { useQueryClient, useQuery, useMutation } from 'react-query'
 import { getBoard, deleteBoard } from '../api/boardApi'
+import { useSearchParams } from 'react-router-dom'
 
 function MainLists(props) {
 
+    const [searchParams, setSearchParams] = useSearchParams()
+
+    let season = searchParams.get('season')
+    console.log('현재페이지:', season)
+
     // api/boards?season=string&location=string&star=string&keyword=string
 
-    const {starRadio, setStarRadio, selectWhere, setSelectWhere} = props
+    const { starRadio, setStarRadio, selectWhere, setSelectWhere } = props
 
     const queryClient = useQueryClient()
     const { data: board } = useQuery('board', getBoard)
@@ -22,7 +28,7 @@ function MainLists(props) {
     })
 
     const onClickDelBtn = (id) => {
-        if(window.confirm('삭제하시겠습니까?')) {
+        if (window.confirm('삭제하시겠습니까?')) {
             // 삭제 mutation
             deleteBoardMutation.mutate(id)
             alert('삭제되었습니다')
@@ -63,25 +69,26 @@ function MainLists(props) {
     return (
         <>
             {
-                board?.map((item) => {
-                    return (
-                        <st.MainListBox key={item.id}>
-                            <sst.End>
-                                <sst.Button fn="form">수정</sst.Button>
-                                <sst.Button fn="del"
-                                onClick={() => onClickDelBtn({id: item.id})}>삭제</sst.Button>
-                            </sst.End>
-                            <st.Title season={item.season}><h1 className='TitleH1'>{item.title} {seasonIcon(item.season)}</h1></st.Title>
-                            <st.Image>이미지입니다</st.Image>
-                            <sst.Row>
-                                <span className='spanbold'>별점</span>&nbsp;<st.ShowBox type="select">{starIcon(item.star)}</st.ShowBox>
-                                <span className='spanbold'>위치</span>&nbsp;<st.ShowBox type="select">{item.location}</st.ShowBox>
-                            </sst.Row>
-                            <span className='spanbold'>👉 {item.placename}</span>
-                            <st.ShowBox type="contents">{item.content}</st.ShowBox>
-                        </st.MainListBox>
-                    )
-                })
+                board?.filter((item) => item.season == { season })
+                    .map((item) => {
+                        return (
+                            <st.MainListBox key={item.id}>
+                                <sst.End>
+                                    <sst.Button fn="form">수정</sst.Button>
+                                    <sst.Button fn="del"
+                                        onClick={() => onClickDelBtn({ id: item.id })}>삭제</sst.Button>
+                                </sst.End>
+                                <st.Title season={item.season}><h1 className='TitleH1'>{item.title} {seasonIcon(item.season)}</h1></st.Title>
+                                <st.Image style={{ background: `url(' + ${item.image} + ')` }}>이미지입니다</st.Image>
+                                <sst.Row>
+                                    <span className='spanbold'>별점</span>&nbsp;<st.ShowBox type="select">{starIcon(item.star)}</st.ShowBox>
+                                    <span className='spanbold'>위치</span>&nbsp;<st.ShowBox type="select">{item.location}</st.ShowBox>
+                                </sst.Row>
+                                <span className='spanbold'>👉 {item.placename}</span>
+                                <st.ShowBox type="contents">{item.content}</st.ShowBox>
+                            </st.MainListBox>
+                        )
+                    })
             }
         </>
     )
