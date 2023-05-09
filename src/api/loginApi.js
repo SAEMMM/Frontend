@@ -1,18 +1,16 @@
 import axios from "axios";
 
 const loginApi = axios.create({
-    baseURL: "http://13.124.170.137:8080/"
-});
+    baseURL: process.env.REACT_APP_URL
+})
 
-export const login = (userData) => {
-    return loginApi.post("/api/user/login", userData)
-        .then((response) => {
-            const accessToken = response.headers.accesstoken;
-            const refreshToken = response.headers.refreshtoken;
-            localStorage.setItem("refreshToken", refreshToken);
-            axios.defaults.headers.common[`Authorization`] = `Bearer ${accessToken}`; //토큰 값 저장위치 다시 확인
-            return accessToken;
-        })
-};
+export const login = async (userId, password) => {
+    try {
+        const response = await loginApi.post("/api/user/login", {userId, password});
+        const accessToken = response.data.Authorization;
+        const refreshToken = response.data.RefreshToken;
+        localStorage.setItem("refreshToken", refreshToken);
+        document.cookie = `accessToken=${accessToken}`;
+        return accessToken;
 
 export default loginApi;

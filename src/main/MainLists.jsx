@@ -4,10 +4,15 @@ import * as sst from '../share/Style'
 import { useQueryClient, useQuery, useMutation } from 'react-query'
 import { getBoard, deleteBoard } from '../api/boardApi'
 
-function MainLists() {
+function MainLists(props) {
+
+    // api/boards?season=string&location=string&star=string&keyword=string
+
+    const {starRadio, setStarRadio, selectWhere, setSelectWhere} = props
 
     const queryClient = useQueryClient()
     const { data: board } = useQuery('board', getBoard)
+    console.log('data:', board)
 
     const deleteBoardMutation = useMutation(deleteBoard, {
         onSuccess: () => {

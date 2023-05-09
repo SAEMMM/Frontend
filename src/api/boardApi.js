@@ -1,12 +1,12 @@
 import axios from "axios";
 
 const boardApi = axios.create({
-    baseURL: "http://13.124.170.137:8080/"
+    baseURL: process.env.REACT_APP_URL
 })
 
 export const getBoard = async () => {
-    const response = await boardApi.get('/api/board')
-    return response.data
+    const response = await boardApi.get('/api/boards?season=봄')
+    return response.data.data
 }
 
 export const addPost = async (formData) => {

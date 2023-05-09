@@ -63,7 +63,7 @@ function Signups() {
         }
         try {
             const response = await axios.post(REGISTER_URL,
-                JSON.stringify({ nickname, userId, password }),
+                JSON.stringify({ nickname, userId, password:pw }),
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true

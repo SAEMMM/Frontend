@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const signupApi = axios.create({
-    baseURL: "http://13.124.170.137:8080/"
+    baseURL: process.env.REACT_APP_URL
 })
 
 export default signupApi

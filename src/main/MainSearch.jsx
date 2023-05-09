@@ -14,11 +14,14 @@ function MainSearch() {
     ]
     const [selectWhere, setSelectWhere] = useState(searchWhere[0])
 
-   
+
     const [starRadio, setStarRadio] = useState([])
     const clickRadioHandler = (e) => {
         setStarRadio(e.target.value)
     }
+
+    console.log('별점순:', starRadio)
+    console.log('위치선택:', selectWhere.label)
 
     return (
         <st.SearchBox>
@@ -29,7 +32,9 @@ function MainSearch() {
                     <input type="radio" value="2" checked={starRadio === "2"} onChange={clickRadioHandler} />
                     <label>별점 낮은 순😡</label>
                 </sst.Row></div>
-            <div><span className='spanBold'>위치 선택</span><sst.SelectStyle options={searchWhere} onChange={setSelectWhere} defaultValue={searchWhere[0]} /></div>
+            <div><span className='spanBold'>위치 선택</span>
+                <sst.SelectStyle options={searchWhere} onChange={setSelectWhere} />
+            </div>
             <sst.Row>
                 <sst.Column><span className='spanBold'>키워드 검색</span> <sst.Input /></sst.Column>
                 <sst.Button>검색하기</sst.Button>
