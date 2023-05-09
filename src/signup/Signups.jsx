@@ -30,7 +30,6 @@ function Signups() {
     const [validMatch, setValidMatch] = useState(false)
     const [matchFocus, setMatchFocus] = useState(false)
 
-    const [errMsg, setErrMsg] = useState('')
     const [success, setSuccess] = useState(false)
 
     useEffect(() => {
@@ -53,17 +52,13 @@ function Signups() {
         setValidMatch(match)
     }, [pw, matchPw])
 
-    useEffect(() => {
-        setErrMsg('')
-    }, [userId, pw, matchPw])
-
     const handleSubmit = async (e) => {
         e.preventDefault()
         // if button enabled with JS hack
         const v1 = USER_REGEX.test(userId)
         const v2 = PW_REGEX.test(pw)
         if (!v1 || !v2) {
-            setErrMsg("Invalid Entry")
+            alert('아이디와 비밀번호를 조건에 맞게 입력해주세요!')
             return
         }
         try {
@@ -79,15 +74,15 @@ function Signups() {
             console.log(JSON.stringify(response))
             setSuccess(true)
             alert('회원이 되신 것을 환영합니다!')
-            navigate('/')
+            navigate('/login')
             // clear input fields
         } catch (err) {
             if (!err?.response) {
-                setErrMsg('서버의 응답이 없습니다')
+                alert('서버의 응답이 없습니다')
             } else if (err.response?.status === 409) {
-                setErrMsg('중복된 아이디입니다')
+                alert('중복된 아이디입니다')
             } else {
-                setErrMsg('회원가입에 실패했습니다')
+                alert('회원가입에 실패했습니다')
             }
             errRef.current.focus()
         }
@@ -95,7 +90,7 @@ function Signups() {
 
     return (
         <st.SignupBox>
-            <p ref={errRef} className={errMsg ? 'errMsg' : 'offscreen'} aria-live='assertive'>{errMsg}</p>
+            
             <h1 className='SignBoxH1'>회원가입 🎉</h1>
             <st.SignInputBox>
                 <st.SignLabel htmlFor='nickname'>닉네임
@@ -117,7 +112,7 @@ function Signups() {
                     <span className={validuserId || !userId ? "hide" : "invalid"}>🚨</span>
                 </st.SignLabel>
                 <sst.Row>
-                    <st.SignInput type="userId" id='userId'
+                    <st.SignInput id='userId'
                         value={userId}
                         autoComplete='off'
                         onChange={(e) => setUserId(e.target.value)}
@@ -126,7 +121,6 @@ function Signups() {
                         aria-describedby='uidnote'
                         onFocus={() => setUserIdFocus(true)}
                         onBlur={() => setUserIdFocus(false)} />
-                    <sst.Button fn="idcheck">중복확인</sst.Button>
                 </sst.Row>
                 <st.SingCheckMsg id="uidnote" className={userIdFocus && userId && !validuserId ? "instructions" : "offscreen"}>
                     아이디는 6~18자의 소문자, 숫자입니다
@@ -168,7 +162,7 @@ function Signups() {
                 </st.SingCheckMsg>
             </st.SignInputBox>
 
-            <sst.Button disabled={!nickname || !validuserId || !validPw || !validMatch ? true : false} fn="sign" onClick={handleSubmit}>회원가입 완료</sst.Button>
+            <sst.Button fn="sign" onClick={handleSubmit}>회원가입 완료</sst.Button>
         </st.SignupBox>
     )
 }
