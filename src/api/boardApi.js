@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const boardApi = axios.create({
-    baseURL: "http://localhost:4000"
+    baseURL: "http://13.124.170.137:8080/"
 })
 
 export const getBoard = async () => {
@@ -10,12 +10,7 @@ export const getBoard = async () => {
 }
 
 export const addPost = async (board) => {
-    try {
-        const response = await boardApi.post("/board", board);
-        return response.data;
-    } catch (error) {
-        console.error(error);
-    }
+    return await boardApi.post("/board", board);
 }
 
 export const deleteBoard = async ({ id }) => {

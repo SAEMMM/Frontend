@@ -1,11 +1,27 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router'
 import * as st from './LoginST'
 import * as sst from '../share/Style'
 
 function Logins() {
 
+    // const userRef = useRef();
+    // const errRef = useRef();
+
+    const [userId, setuserId] = useState('');
+    const [password, setPassword] = useState('');
+    // const [errMsg, setErrMsg] = useState('');
+    // const [success, setSuccess] = useState(false);
+
     const navigation = useNavigate();
+
+    // useEffect(() => {
+    //     userRef.current.focus()
+    // },[])
+
+    // useEffect(() => {
+    //     setErrMsg('')
+    // }, [userId, password])
 
     return (
         <st.LoginBox>

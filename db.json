@@ -2,13 +2,31 @@
   "users": [],
   "board": [
     {
-      "title": "테스트거든여",
-      "content": "테스트입니다",
-      "placename": "테스트장소거든여",
-      "location": "경상도",
+      "title": "ㅁㅁ",
+      "content": "ㅇㄴㅇㄹ",
+      "placename": "ㅁㅁ",
+      "location": "강원도",
+      "season": "summer",
+      "star": "3",
+      "id": 6
+    },
+    {
+      "title": "ㅎㅎ",
+      "content": "ㅎㅎ",
+      "placename": "ㅎㅎㅎ",
+      "location": "충청도",
+      "season": "winter",
+      "star": "4",
+      "id": 7
+    },
+    {
+      "title": "ㅁㄴㄻㄴㄹ",
+      "content": "ㅁㄴㄻㄴㄹ",
+      "placename": "ㅁㄴㄹㄻㄴ",
+      "location": "",
       "season": "fall",
-      "star": "0",
-      "id": 3
+      "star": "4",
+      "id": 8
     }
   ]
 }
