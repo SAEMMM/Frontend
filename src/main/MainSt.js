@@ -56,9 +56,9 @@ export const Title = styled.div`
 `
 
 export const Image = styled.div`
-/* background-image: url();
+// background-image: url();
 background-position: center;
-background-size: cover; */
+background-size: cover;
 background-color: silver;
 width: 700px;
 height: 400px;

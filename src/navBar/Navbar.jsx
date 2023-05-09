@@ -11,10 +11,10 @@ function NavBar() {
             <st.NavBox>
                 <st.NavLink>
                     <st.NavContent onClick={()=>navigate("/")}>Home</st.NavContent>
-                    <st.NavContent onClick={()=>navigate("/main")}>봄</st.NavContent>
-                    <st.NavContent onClick={()=>navigate("/main")}>여름</st.NavContent>
-                    <st.NavContent onClick={()=>navigate("/main")}>가을</st.NavContent>
-                    <st.NavContent onClick={()=>navigate("/main")}>겨울</st.NavContent>
+                    <st.NavContent onClick={()=>navigate("/main?season=spring")}>봄</st.NavContent>
+                    <st.NavContent onClick={()=>navigate("/main?season=summer")}>여름</st.NavContent>
+                    <st.NavContent onClick={()=>navigate("/main?season=fall")}>가을</st.NavContent>
+                    <st.NavContent onClick={()=>navigate("/main?season=winter")}>겨울</st.NavContent>
                 </st.NavLink>
 
                 <st.NavLink>

@@ -12,9 +12,14 @@ function Routers() {
         <Background>
             <Routes>
                 <Route path="/" element={<Season />} />
-                <Route path="/main" element={<Main />} />
+                <Route path="/main" element={<Main />}>
+                    <Route path="?season=spring" element={<div>봄</div>} />
+                    <Route path="?season=summer" element={<div>여름</div>} />
+                    <Route path="?season=fall" element={<div>가을</div>} />
+                    <Route path="?season=winter" element={<div>겨울</div>} />
+                </Route>
                 <Route path="/board" element={<Board />} />
-                <Route path="/login" element={<Login />}/>
+                <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
             </Routes>
         </Background>
