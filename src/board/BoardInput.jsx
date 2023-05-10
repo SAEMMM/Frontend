@@ -30,7 +30,7 @@ function BoardInput() {
         setStar(SelectedStar)
     }
 
-    const mutation = useMutation(addPost);
+    const mutation = useMutation(addPost)
 
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -47,7 +47,10 @@ function BoardInput() {
             formData.append('image', image.raw);
         }
 
-        await mutation.mutateAsync(formData);
+        const accessToken = localStorage.getItem('accessToken');
+        const refreshToken = localStorage.getItem('refreshToken');
+
+        await mutation.mutateAsync([formData,accessToken,refreshToken]);
         resetTitle('');
         resetContent('');
         resetPlace('');

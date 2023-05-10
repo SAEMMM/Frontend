@@ -9,8 +9,15 @@ export const getBoard = async () => {
     return response.data.data
 }
 
-export const addPost = async (formData) => {
-    return await boardApi.post("/api/board", formData);
+export const addPost = async ([formData, accessToken, refreshToken]) => {
+    const config = {
+        headers: {
+            "Authorization": accessToken,
+            "RefreshToken": refreshToken,
+        }
+    }
+
+    return await boardApi.post("/api/board", formData, config);
 }
 
 export const deleteBoard = async ({ id }) => {

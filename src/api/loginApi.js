@@ -10,7 +10,8 @@ export const login = async (userData) => {
         const accessToken = response.headers.authorization;
         const refreshToken = response.headers.refreshtoken;
         localStorage.setItem("refreshToken", refreshToken);
-        document.cookie = `accessToken=${accessToken}`;
+        localStorage.setItem("accessToken", accessToken);
+
         return accessToken;
     } catch (error) { 
         throw new Error('로그인에 실패하였습니다')
