@@ -17,5 +17,4 @@ export const login = async (userData) => {
         throw new Error('로그인에 실패하였습니다')
     }
 }
-
 export default loginApi;

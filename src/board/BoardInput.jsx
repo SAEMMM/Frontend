@@ -7,8 +7,11 @@ import SelectSeason from './SelectSeason';
 import { useMutation } from 'react-query';
 import { addPost } from '../api/boardApi';
 import useInput from '../hooks/useInput';
+import { useNavigate } from 'react-router-dom';
 
 function BoardInput() {
+
+    let navigate = useNavigate()
 
     const [title, titleHandler, resetTitle] = useInput('')
     const [content, contentHandler, resetContent] = useInput('')
@@ -123,8 +126,8 @@ function BoardInput() {
                     placeholder='내용을 작성해주세요' />
 
                 <st.Row>
-                    <sst.Button fn="form">작성완료</sst.Button>
-                    <sst.Button fn="del">취소</sst.Button>
+                    <sst.Button fn="form">완료</sst.Button>
+                    <sst.Button fn="del" onClick={() => navigate(-1)}>취소</sst.Button>
                 </st.Row>
             </st.BodyStyle>
         </form>
