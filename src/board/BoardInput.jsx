@@ -59,6 +59,8 @@ function BoardInput() {
         const refreshToken = localStorage.getItem('refreshToken');
 
         await mutation.mutateAsync([formData,accessToken,refreshToken]);
+        alert("등록되었습니다")
+        navigate(`/main?season=${season}`)
         resetTitle('');
         resetContent('');
         resetPlace('');
