@@ -7,26 +7,15 @@ import Signup from '../signup/Signup'
 import Board from '../board/Board'
 import Login from '../login/Login'
 import SpringLists from '../main/MainLists'
+import { useSelector } from 'react-redux'
 
 function Routers() {
-
-    const navigate = useNavigate();
-    const isLoggedIn = !!localStorage.getItem('refreshToken');
-    
-    const goBoard = () => {
-        if (isLoggedIn) {
-            navigate('/board');
-        } else {
-            navigate('/login');
-        }
-    }
-
     return (
         <Background>
             <Routes>
                 <Route path="/" element={<Season />} />
                 <Route path="/main" element={<Main />} />
-                <Route path="/board" element={<Board />} onClick={goBoard} />
+                <Route path="/board" element={<Board />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
             </Routes>
