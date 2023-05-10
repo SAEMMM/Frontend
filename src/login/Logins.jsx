@@ -19,7 +19,7 @@ function Logins() {
     const mutation = useMutation(login, {
         onSuccess: () => {
             alert('로그인 성공')
-            navigation('/')
+            navigation(-1)
             dispatch(loggedInOut(true))
         }
     })
