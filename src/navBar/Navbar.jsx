@@ -11,7 +11,7 @@ function NavBar() {
     const accessToken = localStorage.getItem('accessToken');
     const refreshToken = localStorage.getItem('refreshToken');
     const nickname = localStorage.getItem('nickname');
-    const isLogin = localStorage.getItem('isLogin')
+    const isLogin = localStorage.getItem('isLogin');
 
     const logoutHandler = () => {
         mutation.mutateAsync([accessToken, refreshToken]);

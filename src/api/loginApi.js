@@ -30,6 +30,7 @@ export const logout = async ([accessToken, refreshToken]) => {
         await loginApi.get("/api/user/logout", config)
         localStorage.removeItem("refreshToken");
         localStorage.removeItem("accessToken");
+        localStorage.removeItem("nickname");
         return;
     } catch (error) {
         throw new Error('로그아웃에 실패하였습니다')

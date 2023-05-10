@@ -21,7 +21,7 @@ export const deleteBoard = async ([id, accessToken, refreshToken]) => {
             "RefreshToken": refreshToken
         }
     }
-    await boardApi.delete(`/api/boards/${id}`, config)
+    return await boardApi.delete(`/api/boards/${id}`, config)
 }
 
 export const updateBoard = async ([board, accessToken, refreshToken]) => {
@@ -32,6 +32,17 @@ export const updateBoard = async ([board, accessToken, refreshToken]) => {
         }
     } 
     return await boardApi.patch(`/api/boards/${board.id}`, board, config)
+}
+
+export const beforeUpdate = async ([id, accessToken, refreshToken]) => {
+    const config = {
+        headers: {
+            "Authorization": accessToken,
+            "RefreshToken": refreshToken
+        }
+    } 
+    const response = await boardApi.get(`/api/boards/${id}`, config)
+    return response.data.data
 }
 
 export default boardApi

@@ -15,7 +15,7 @@ function Routers() {
                 <Route path="/" element={<Season />} />
                 <Route path="/main" element={<Main />} />
                 <Route path="/board" element={<Board />} />
-                <Route path='/board/:id' element={<UpdateBoard/>} />
+                <Route path="/board/:id" element={<UpdateBoard />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
             </Routes>
