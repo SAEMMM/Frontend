@@ -11,7 +11,6 @@ function MainLists() {
 
     // 필터링 state
     const search = useSearchContext()
-    console.log('넘겨온 search:', search.search)
 
     // 현재 페이지의 query string value 추출
     const [searchParams, setSearchParams] = useSearchParams()
@@ -80,7 +79,7 @@ function MainLists() {
     }
 
     useEffect(() => {
-        console.log(season)
+        
     }, [season])
 
     return (

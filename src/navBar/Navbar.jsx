@@ -1,30 +1,32 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import * as st from './NavbarST'
-import { useDispatch, useSelector } from 'react-redux';
-import { loggedInOut } from '../redux/modules/isLogin';
 import { useMutation } from 'react-query';
 import { logout } from '../api/loginApi';
 
 function NavBar() {
 
-    const isLogin = useSelector((state) => state.isLogin.isLogin);
-
-    const dispatch = useDispatch();
-
     const mutation = useMutation(logout)
 
     const accessToken = localStorage.getItem('accessToken');
     const refreshToken = localStorage.getItem('refreshToken');
+    const nickname = localStorage.getItem('nickname');
+    const isLogin = localStorage.getItem('isLogin')
 
     const logoutHandler = () => {
         mutation.mutateAsync([accessToken, refreshToken]);
-        dispatch(loggedInOut(false))
-        navigate('/')
+        localStorage.setItem('isLogin', 'isLogout');
     }
 
     const navigate = useNavigate();
-    // api/boards?season=string&location=string&star=string&keyword=string
+    const navigateHandler = () => {
+        if (isLogin === 'isLogin') {
+            navigate("/board")
+        } else {
+            alert("로그인이 필요합니다")
+            navigate("/login")
+        }
+    }
 
     return (
         <st.NavBox>
@@ -62,11 +64,11 @@ function NavBar() {
             </st.NavLink>
 
             <st.NavLink>
-                <st.Welcome>xxx님! 환영합니다</st.Welcome>
-                <st.NavContent onClick={() =>
-                    isLogin ? navigate("/board")
-                        : (alert("로그인이 필요합니다"), navigate("/login"))}><span className='spanBold'>작성하기</span></st.NavContent>
-                {isLogin ?
+                {isLogin === 'isLogin' ?
+                    <st.Welcome>{nickname}님! 환영합니다</st.Welcome>
+                    : null}
+                <st.NavContent onClick={navigateHandler}><span className='spanBold'>작성하기</span></st.NavContent>
+                {isLogin === 'isLogin' ?
                     <st.NavContent onClick={logoutHandler}><span className='spanBold'>로그아웃</span></st.NavContent>
                     : <st.NavContent onClick={() => navigate("/login")}><span className='spanBold'>로그인</span></st.NavContent>}
             </st.NavLink>

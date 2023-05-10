@@ -60,7 +60,7 @@ function MainSearch() {
             setSearch(`/main?season=${season}&location=${selectWhere.label}&star=${starRadio}&keyword=${keyword}`)
         }
     }
-    console.log('필터링 조건:', search)
+    // console.log('필터링 조건:', search)
 
     return (
         <st.SearchBox>
