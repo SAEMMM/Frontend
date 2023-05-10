@@ -50,10 +50,17 @@ function BoardInput() {
             formData.append('image', image.raw);
         }
 
+        if (!title || !content || !star || !location || !placename || !season || !image) {
+            alert("모든 내용을 입력해주세요")
+            return;
+        } 
+
         const accessToken = localStorage.getItem('accessToken');
         const refreshToken = localStorage.getItem('refreshToken');
 
         await mutation.mutateAsync([formData,accessToken,refreshToken]);
+        alert("등록되었습니다")
+        navigate(`/main?season=${season}`)
         resetTitle('');
         resetContent('');
         resetPlace('');

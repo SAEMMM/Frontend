@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router'
 import * as st from './LoginST'
 import * as sst from '../share/Style'
-import axios from "axios";
 import { useMutation } from 'react-query';
 import { login } from '../api/loginApi';
 import { useDispatch } from 'react-redux';
@@ -19,7 +18,7 @@ function Logins() {
     const mutation = useMutation(login, {
         onSuccess: () => {
             alert('로그인 성공')
-            navigation('/')
+            navigation(-1)
             dispatch(loggedInOut(true))
         }
     })
