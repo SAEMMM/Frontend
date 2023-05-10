@@ -5,14 +5,24 @@ import * as sst from '../share/Style'
 import axios from "axios";
 import { useMutation } from 'react-query';
 import { login } from '../api/loginApi';
+import { useDispatch } from 'react-redux';
+import { loggedInOut } from '../redux/modules/isLogin';
 
 function Logins() {
     const navigation = useNavigate();
 
+    const dispatch = useDispatch();
+
     const [userId, setuserId] = useState('');
     const [password, setPassword] = useState('');
 
-    const mutation = useMutation(login)
+    const mutation = useMutation(login, {
+        onSuccess: () => {
+            alert('로그인 성공')
+            navigation('/')
+            dispatch(loggedInOut(true))
+        }
+    })
 
     const submitHandler = async (e) => {
         e.preventDefault();
