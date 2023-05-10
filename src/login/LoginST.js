@@ -41,8 +41,14 @@ border-radius: 5px;
 
 export const LoginStyle = styled.span`
 &:hover {
-    border-bottom: 1px solid grey;
     cursor: pointer;
-    font-weight: bold;
+    .spanBold {
+        color: indianred;
+    }
+}
+.spanBold {
+    font-weight: bolder;
+    font-size: 20px;
+    text-shadow: 2px 2px 0px #FFFFFF, 4px 4px 0px rgba(0,0,0,0.15);
 }
 `

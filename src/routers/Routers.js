@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import Signup from '../signup/Signup'
 import Board from '../board/Board'
 import Login from '../login/Login'
+import SpringLists from '../main/MainLists'
 
 function Routers() {
 
@@ -24,12 +25,7 @@ function Routers() {
         <Background>
             <Routes>
                 <Route path="/" element={<Season />} />
-                <Route path="/main" element={<Main />}>
-                    <Route path="?season=spring" element={<div>봄</div>} />
-                    <Route path="?season=summer" element={<div>여름</div>} />
-                    <Route path="?season=fall" element={<div>가을</div>} />
-                    <Route path="?season=winter" element={<div>겨울</div>} />
-                </Route>
+                <Route path="/main" element={<Main />} />
                 <Route path="/board" element={<Board />} onClick={goBoard} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />

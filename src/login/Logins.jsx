@@ -50,8 +50,10 @@ function Logins() {
 
             <sst.Button fn="sign" onClick={submitHandler}>Login</sst.Button>
 
-            <span>회원이 아니시라면?</span>
-            <st.LoginStyle onClick={() => navigation("/signup")}>회원가입하러가기</st.LoginStyle>
+            <sst.Column style={{alignItems: 'center'}}>
+                <span>회원이 아니시라면?</span>
+                <st.LoginStyle onClick={() => navigation("/signup")}><span className='spanBold'>회원가입하러가기</span></st.LoginStyle>
+            </sst.Column>
 
         </st.LoginBox>
     )

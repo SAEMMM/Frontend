@@ -38,6 +38,7 @@ export const Button = styled.button`
     color: ${props => props.fn === 'form' ? 'white' : (props => props.fn === 'del' ? 'white' : (props => props.fn === 'sign' ? 'white' : 'black'))};
     border: none;
     border-radius: 5px;
+    font-weight: bold;
     cursor: pointer;
     &:hover {
         background-color: silver;
