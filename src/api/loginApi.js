@@ -16,4 +16,22 @@ export const login = async (userData) => {
         throw new Error('로그인에 실패하였습니다')
     }
 }
+
+export const logout = async ([accessToken, refreshToken]) => {
+    try {
+        const config = {
+            headers: {
+                "Authorization": accessToken,
+                "RefreshToken": refreshToken
+            }
+        } 
+        await loginApi.get("/api/user/logout", config)
+        localStorage.removeItem("refreshToken");
+        localStorage.removeItem("accessToken");
+        return;
+    } catch (error) {
+        throw new Error('로그아웃에 실패하였습니다')
+    }
+}
+
 export default loginApi;

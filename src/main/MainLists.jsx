@@ -29,6 +29,10 @@ function MainLists(props) {
         onSuccess: () => {
             // Invalidates cache and refetch
             queryClient.invalidateQueries('board')
+            alert('삭제되었습니다')
+        },
+        onError: () => {
+            alert('게시물을 삭제할 수 없습니다')
         }
     })
 
@@ -37,9 +41,7 @@ function MainLists(props) {
 
     const onClickDelBtn = (id) => {
         if (window.confirm('삭제하시겠습니까?')) {
-            // 삭제 mutation
             deleteBoardMutation.mutate([id.id,accessToken,refreshToken])
-            alert('삭제되었습니다')
         } else {
             return false
         }

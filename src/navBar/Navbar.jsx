@@ -3,16 +3,22 @@ import { useNavigate } from 'react-router-dom'
 import * as st from './NavbarST'
 import { useDispatch, useSelector } from 'react-redux';
 import { loggedInOut } from '../redux/modules/isLogin';
+import { useMutation } from 'react-query';
+import { logout } from '../api/loginApi';
 
 function NavBar() {
 
-    const isLogin = useSelector((state)=>state.isLogin.isLogin);
+    const isLogin = useSelector((state) => state.isLogin.isLogin);
 
     const dispatch = useDispatch();
 
+    const mutation = useMutation(logout)
+
+    const accessToken = localStorage.getItem('accessToken');
+    const refreshToken = localStorage.getItem('refreshToken');
+
     const logoutHandler = () => {
-        localStorage.removeItem('accessToken')
-        localStorage.removeItem('refreshToken')
+        mutation.mutateAsync([accessToken, refreshToken]);
         dispatch(loggedInOut(false))
         navigate('/')
     }
@@ -57,12 +63,12 @@ function NavBar() {
 
             <st.NavLink>
                 <st.Welcome>xxx님! 환영합니다</st.Welcome>
-                <st.NavContent onClick={() => 
-                    isLogin? navigate("/board")
-                     : (alert("로그인이 필요합니다"), navigate("/login"))}><span className='spanBold'>작성하기</span></st.NavContent>
+                <st.NavContent onClick={() =>
+                    isLogin ? navigate("/board")
+                        : (alert("로그인이 필요합니다"), navigate("/login"))}><span className='spanBold'>작성하기</span></st.NavContent>
                 {isLogin ?
-                <st.NavContent onClick={logoutHandler}><span className='spanBold'>로그아웃</span></st.NavContent>
-                :<st.NavContent onClick={() => navigate("/login")}><span className='spanBold'>로그인</span></st.NavContent> }
+                    <st.NavContent onClick={logoutHandler}><span className='spanBold'>로그아웃</span></st.NavContent>
+                    : <st.NavContent onClick={() => navigate("/login")}><span className='spanBold'>로그인</span></st.NavContent>}
             </st.NavLink>
         </st.NavBox>
     )
