@@ -50,6 +50,11 @@ function BoardInput() {
             formData.append('image', image.raw);
         }
 
+        if (!title || !content || !star || !location || !placename || !season || !image) {
+            alert("모든 내용을 입력해주세요")
+            return;
+        } 
+
         const accessToken = localStorage.getItem('accessToken');
         const refreshToken = localStorage.getItem('refreshToken');
 
