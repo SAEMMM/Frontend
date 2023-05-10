@@ -4,22 +4,21 @@ import * as st from './LoginST'
 import * as sst from '../share/Style'
 import { useMutation } from 'react-query';
 import { login } from '../api/loginApi';
-import { useDispatch } from 'react-redux';
-import { loggedInOut } from '../redux/modules/isLogin';
 
 function Logins() {
     const navigation = useNavigate();
-
-    const dispatch = useDispatch();
 
     const [userId, setuserId] = useState('');
     const [password, setPassword] = useState('');
 
     const mutation = useMutation(login, {
+        onError: () => {
+            alert('아이디와 비밀번호를 확인해주세요')
+        },
         onSuccess: () => {
             alert('로그인 성공')
-            navigation(-1)
-            dispatch(loggedInOut(true))
+            navigation('/')
+            localStorage.setItem('isLogin', 'isLogin')
         }
     })
 

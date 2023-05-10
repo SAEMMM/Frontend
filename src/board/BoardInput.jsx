@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 
 function BoardInput() {
 
-    let navigate = useNavigate()
+    const navigate = useNavigate()
 
     const [title, titleHandler, resetTitle] = useInput('')
     const [content, contentHandler, resetContent] = useInput('')
@@ -33,7 +33,14 @@ function BoardInput() {
         setStar(SelectedStar)
     }
 
-    const mutation = useMutation(addPost)
+    const isLogin = localStorage.getItem('isLogin')
+
+    const mutation = useMutation(addPost, {
+        onError: () => {
+            alert('로그인이 필요합니다')
+            navigate('/login')
+        }
+    })
 
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -53,18 +60,18 @@ function BoardInput() {
         if (!title || !content || !star || !location || !placename || !season || !image) {
             alert("모든 내용을 입력해주세요")
             return;
-        } 
+        } else {
+            const accessToken = localStorage.getItem('accessToken');
+            const refreshToken = localStorage.getItem('refreshToken');
 
-        const accessToken = localStorage.getItem('accessToken');
-        const refreshToken = localStorage.getItem('refreshToken');
-
-        await mutation.mutateAsync([formData,accessToken,refreshToken]);
-        alert("등록되었습니다")
-        navigate(`/main?season=${season}`)
-        resetTitle('');
-        resetContent('');
-        resetPlace('');
-        setImage(null);
+            await mutation.mutateAsync([formData, accessToken, refreshToken]);
+            alert("등록되었습니다")
+            navigate(`/main?season=${season}`)
+            resetTitle('');
+            resetContent('');
+            resetPlace('');
+            setImage(null);
+        }
     }
 
     const handleImageChange = (e) => {
@@ -81,8 +88,8 @@ function BoardInput() {
         }
     };
 
-    return (
-        <form onSubmit={submitHandler}>
+    if (isLogin === 'isLogin') {
+        return (
             <st.BodyStyle>
                 <st.InputStyle
                     width="70%"
@@ -98,8 +105,6 @@ function BoardInput() {
                         <img src={image.preview} alt="uploaded" />
                     </st.ImageWrapper>
                 ) : <st.ImagePlaceholder>이미지를 추가해주세요</st.ImagePlaceholder>}
-
-                {/* {image && <img src={image.preview} alt="uploaded"/>} */}
 
                 <st.InputStyle
                     width="70%"
@@ -133,12 +138,16 @@ function BoardInput() {
                     placeholder='내용을 작성해주세요' />
 
                 <st.Row>
-                    <sst.Button fn="form">완료</sst.Button>
+                    <sst.Button fn="form" onClick={submitHandler}>완료</sst.Button>
                     <sst.Button fn="del" onClick={() => navigate(-1)}>취소</sst.Button>
                 </st.Row>
             </st.BodyStyle>
-        </form>
-    )
+        )
+    } else {
+        alert('로그인이 필요합니다')
+        navigate('/login')
+        return null;
+    }
 }
 
 export default BoardInput

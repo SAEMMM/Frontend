@@ -5,16 +5,18 @@ const loginApi = axios.create({
 })
 
 export const login = async (userData) => {
-    try {
+    // try {
         const response = await loginApi.post("/api/user/login", userData);
         const accessToken = response.headers.authorization;
         const refreshToken = response.headers.refreshtoken;
+        const nickname = response.data.data.nickname;
         localStorage.setItem("refreshToken", refreshToken);
         localStorage.setItem("accessToken", accessToken);
-        return accessToken;
-    } catch (error) { 
-        throw new Error('로그인에 실패하였습니다')
-    }
+        localStorage.setItem("nickname", nickname);
+        return response
+    // } catch (error) { 
+    //     alert("아이디와 비밀번호를 확인해주세요")
+    // }
 }
 
 export const logout = async ([accessToken, refreshToken]) => {
