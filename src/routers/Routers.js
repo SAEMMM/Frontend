@@ -1,13 +1,11 @@
-import React, { useState } from 'react'
-import { Routes, Route, useNavigate } from 'react-router-dom'
+import React from 'react'
+import { Routes, Route } from 'react-router-dom'
 import Season from '../season/Season'
 import Main from '../main/Main'
 import styled from 'styled-components'
 import Signup from '../signup/Signup'
 import Board from '../board/Board'
 import Login from '../login/Login'
-import SpringLists from '../main/MainLists'
-import { useSelector } from 'react-redux'
 
 function Routers() {
     return (
