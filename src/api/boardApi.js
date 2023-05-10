@@ -20,8 +20,8 @@ export const deleteBoard = async ([id, accessToken, refreshToken]) => {
             "Authorization": accessToken,
             "RefreshToken": refreshToken
         }
-    } 
-    return await boardApi.delete(`/api/boards/${id}`, config)
+    }
+    await boardApi.delete(`/api/boards/${id}`, config)
 }
 
 export default boardApi

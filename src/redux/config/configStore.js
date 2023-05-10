@@ -1,10 +1,10 @@
-import { configureStore } from "@reduxjs/toolkit";
-import isLogin from "../modules/isLogin";
+// import { configureStore } from "@reduxjs/toolkit";
+// import isLogin from "../modules/isLogin";
 
-const store = configureStore({
-    reducer: {
-        isLogin,
-    }
-})
+// const store = configureStore({
+//     reducer: {
+//         isLogin,
+//     }
+// })
 
-export default store;
+// export default store;
