@@ -1,16 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import * as st from './MainSt'
 import * as sst from '../share/Style'
+import axios from '../api/boardApi'
 import { useQueryClient, useQuery, useMutation } from 'react-query'
-import { getSpring, getSummer, getFall, getWinter, deleteBoard } from '../api/boardApi'
+import { deleteBoard } from '../api/boardApi'
 import { useSearchParams } from 'react-router-dom'
+import { useSearchContext } from '../contexts/SearchContext'
 
-function MainLists(props) {
+function MainLists() {
 
     // 필터링 state
-    const { search, setSearch, selectWhere, starRadio, keyword, searchSubmit } = props
-
-    console.log('넘겨온 search:', search)
+    const search = useSearchContext()
+    console.log('넘겨온 search:', search.search)
 
     // 현재 페이지의 query string value 추출
     const [searchParams, setSearchParams] = useSearchParams()
@@ -18,11 +19,13 @@ function MainLists(props) {
 
     const queryClient = useQueryClient()
 
-    // 계절별 Api
-    const { data: spring } = useQuery('spring', getSpring)
-    const { data: summer } = useQuery('summer', getSummer)
-    const { data: fall } = useQuery('fall', getFall)
-    const { data: winter } = useQuery('winter', getWinter)
+    // 현재 페이지별 Api
+    const getBoard = async () => {
+        const response = await axios.get(`/api/boards?season=${season}`)
+        return response.data.data
+    }
+
+    const { data: board } = useQuery('board', getBoard)
 
     // 삭제 기능
     const deleteBoardMutation = useMutation(deleteBoard, {
@@ -41,7 +44,7 @@ function MainLists(props) {
 
     const onClickDelBtn = (id) => {
         if (window.confirm('삭제하시겠습니까?')) {
-            deleteBoardMutation.mutate([id.id,accessToken,refreshToken])
+            deleteBoardMutation.mutate([id.id, accessToken, refreshToken])
         } else {
             return false
         }
@@ -76,10 +79,14 @@ function MainLists(props) {
         }
     }
 
+    useEffect(() => {
+        console.log(season)
+    }, [season])
+
     return (
         <>
             {
-                (season == 'spring' ? spring : (season == 'summer' ? summer : (season == 'fall' ? fall : winter)))?.map((item) => {
+                board?.map((item) => {
                     return (
                         <st.MainListBox key={item.id}>
                             <sst.End>
