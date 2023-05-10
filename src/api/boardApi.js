@@ -24,12 +24,24 @@ export const getWinter = async () => {
     return response.data.data
 }
 
-export const addPost = async (formData) => {
-    return await boardApi.post("/api/board", formData);
+export const addPost = async ([formData, accessToken, refreshToken]) => {
+    const config = {
+        headers: {
+            "Authorization": accessToken,
+            "RefreshToken": refreshToken,
+        }
+    }
+    return await boardApi.post("/api/board", formData, accessToken, refreshToken);
 }
 
-export const deleteBoard = async ({ id }) => {
-    return await boardApi.delete(`/api/board/${id}`, id)
+export const deleteBoard = async ({ id, accessToken, refreshToken }) => {
+    const config = {
+        headers: {
+            "Authorization": accessToken,
+            "RefreshToken": refreshToken,
+        }
+    }
+    return await boardApi.delete(`/api/board/${id}`, id, config)
 }
 
 export default boardApi

@@ -23,18 +23,15 @@ function MainSearch() {
 
     const [keyword, setKeyword] = useState('')
 
-    const searchSubmit = async (e) => {
+    const searchSubmit = (e) => {
         e.preventDefault()
         let searchStar = starRadio
         let searchWhere = selectWhere
         let searchKeyword = keyword
 
-        try {
-            const response = await axios.get('/api/boards?season=봄')
-            console.log(response.data)
-        } catch (err) {
-            console.error(err)
-        }
+        // if(searchStar === '1') {
+
+        // }
     }
 
     console.log('별점순:', starRadio, '위치선택:', selectWhere.label, '키워드:', keyword)

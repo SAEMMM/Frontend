@@ -10,11 +10,6 @@ function Seasons() {
 
     let navigate = useNavigate()
 
-    // get을 써서
-    // if main?season=어쩌구
-    // return api/boards?season=어쩌구
-
-
     return (
             <st.AllSeasonBox>
                 <st.SeasonBox style={{ background: 'url(' + spring + ')' }} season="봄" onClick={() => navigate('/main?season=spring')}><p className='SeasonBoxp'>봄</p></st.SeasonBox>

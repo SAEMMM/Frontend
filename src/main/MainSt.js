@@ -81,3 +81,9 @@ margin-right: 20px;
 text-align: center;
 line-height: ${props => props.type === 'contents' ? 'none' : '17'}px;
 `
+
+export const Empty = styled.div`
+width: 900px;
+height: 300px;
+background-color: skyblue;
+`
