@@ -56,9 +56,7 @@ export const Title = styled.div`
 `
 
 export const Image = styled.div`
-// background-image: url();
-background-position: center;
-background-size: cover;
+
 background-color: silver;
 width: 700px;
 height: 400px;
@@ -68,6 +66,14 @@ border-radius: 5px;
     height: 500px;
     transition: all 0.5s;
 }
+`
+
+export const Imageload = styled.div`
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
 `
 
 export const ShowBox = styled.div`

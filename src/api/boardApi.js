@@ -31,18 +31,11 @@ export const addPost = async ([formData, accessToken, refreshToken]) => {
             "RefreshToken": refreshToken,
         }
     }
-
     return await boardApi.post("/api/board", formData, config)
 }
 
-export const deleteBoard = async ({ id, accessToken, refreshToken }) => {
-    const config = {
-        headers: {
-            "Authorization": accessToken,
-            "RefreshToken": refreshToken,
-        }
-    }
-    return await boardApi.delete(`/api/board/${id}`, id, config)
+export const deleteBoard = async ({ id }) => {
+    return await boardApi.delete(`/api/board/${id}`, id)
 }
 
 export default boardApi

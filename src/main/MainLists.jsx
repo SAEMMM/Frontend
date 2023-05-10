@@ -5,20 +5,26 @@ import { useQueryClient, useQuery, useMutation } from 'react-query'
 import { getSpring, getSummer, getFall, getWinter, deleteBoard } from '../api/boardApi'
 import { useSearchParams } from 'react-router-dom'
 
-function MainLists() {
+function MainLists(props) {
 
+    // 필터링 state
+    const { search, setSearch, selectWhere, starRadio, keyword, searchSubmit } = props
+
+    console.log('넘겨온 search:', search)
+
+    // 현재 페이지의 query string value 추출
     const [searchParams, setSearchParams] = useSearchParams()
-
     let season = searchParams.get('season')
-    console.log('현재페이지:', season)
 
     const queryClient = useQueryClient()
 
+    // 계절별 Api
     const { data: spring } = useQuery('spring', getSpring)
     const { data: summer } = useQuery('summer', getSummer)
     const { data: fall } = useQuery('fall', getFall)
     const { data: winter } = useQuery('winter', getWinter)
 
+    // 삭제 기능
     const deleteBoardMutation = useMutation(deleteBoard, {
         onSuccess: () => {
             // Invalidates cache and refetch
@@ -29,13 +35,14 @@ function MainLists() {
     const onClickDelBtn = (id) => {
         if (window.confirm('삭제하시겠습니까?')) {
             // 삭제 mutation
-            deleteBoardMutation.mutate(id)
+            deleteBoardMutation.mutate(id.id)
             alert('삭제되었습니다')
         } else {
             return false
         }
     }
 
+    // 페이지별(계절) 제목 테마
     const seasonIcon = (season) => {
         if (season == 'spring') {
             return '🌷'
@@ -76,7 +83,7 @@ function MainLists() {
                                     onClick={() => onClickDelBtn({ id: item.id })}>삭제</sst.Button>
                             </sst.End>
                             <st.Title season={item.season}><h1 className='TitleH1'>{item.title} {seasonIcon(item.season)}</h1></st.Title>
-                            <st.Image style={{ background: `url('${item.image}')` }}></st.Image>
+                            <st.Image><st.Imageload style={{ background: `url('${item.image}')` }}></st.Imageload></st.Image>
                             <sst.Row>
                                 <span className='spanbold'>별점</span>&nbsp;<st.ShowBox type="select">{starIcon(item.star)}</st.ShowBox>
                                 <span className='spanbold'>위치</span>&nbsp;<st.ShowBox type="select">{item.location}</st.ShowBox>
