@@ -35,7 +35,7 @@ export const addPost = async ([formData, accessToken, refreshToken]) => {
 }
 
 export const deleteBoard = async ({ id }) => {
-    return await boardApi.delete(`/api/board/${id}`, id)
+    return await boardApi.delete(`/api/boards/${id}`, id)
 }
 
 export default boardApi
