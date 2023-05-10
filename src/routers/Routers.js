@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import Signup from '../signup/Signup'
 import Board from '../board/Board'
 import Login from '../login/Login'
+import UpdateBoard from '../board/UpdateBoard'
 
 function Routers() {
     return (
@@ -14,6 +15,7 @@ function Routers() {
                 <Route path="/" element={<Season />} />
                 <Route path="/main" element={<Main />} />
                 <Route path="/board" element={<Board />} />
+                <Route path="/board/:id" element={<UpdateBoard />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
             </Routes>

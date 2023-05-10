@@ -69,8 +69,8 @@ function MainLists() {
         }
     })
 
-    const onClickUpdateBtn = () => {
-        navigate('/UpdateInput')
+    const onClickUpdateBtn = ({id}) => {
+        navigate(`/board/${id}`)
     }
 
     // 페이지별(계절) 제목 테마
@@ -109,7 +109,7 @@ function MainLists() {
                     return (
                         <st.MainListBox key={item.id}>
                             <sst.End>
-                                <sst.Button fn="form" onClick={() => onClickUpdateBtn}>수정</sst.Button>
+                                <sst.Button fn="form" onClick={() => onClickUpdateBtn({id: item.id})}>수정</sst.Button>
                                 <sst.Button fn="del"
                                     onClick={() => onClickDelBtn({ id: item.id })}>삭제</sst.Button>
                             </sst.End>
