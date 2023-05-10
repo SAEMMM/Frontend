@@ -10,7 +10,6 @@ function MainLists() {
     const [searchParams, setSearchParams] = useSearchParams()
 
     let season = searchParams.get('season')
-    console.log('현재페이지:', season)
 
     const queryClient = useQueryClient()
 
@@ -26,10 +25,13 @@ function MainLists() {
         }
     })
 
+    const accessToken = localStorage.getItem('accessToken');
+    const refreshToken = localStorage.getItem('refreshToken');
+
     const onClickDelBtn = (id) => {
         if (window.confirm('삭제하시겠습니까?')) {
             // 삭제 mutation
-            deleteBoardMutation.mutate(id)
+            deleteBoardMutation.mutate([id.id,accessToken,refreshToken])
             alert('삭제되었습니다')
         } else {
             return false
