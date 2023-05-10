@@ -36,37 +36,35 @@ function MainSearch() {
     const searchSubmit = () => {
         if (selectWhere.value == 'null' && starRadio.length == 0 && keyword == '') {
             alert("한가지 이상의 조건을 선택하신 후, '검색하기'를 눌러주세요 😉")
-            setSearch(`/main?season=${season}`)
         }
         else if (selectWhere.value == 'null' && starRadio.length == 0 && keyword.length >= 1) {
-            setSearch(`/main?season=${season}&keyword=${keyword}`)
+            setSearch(`&keyword=${keyword}`)
         }
         else if (selectWhere.value == 'null' && starRadio.length >= 1 && keyword == '') {
-            setSearch(`/main?season=${season}&star=${starRadio}`)
+            setSearch(`&star=${starRadio}`)
         }
         else if (selectWhere.value !== 'null' && starRadio.length == 0 && keyword == '') {
-            setSearch(`/main?season=${season}&location=${selectWhere.label}`)
+            setSearch(`&location=${selectWhere.label}`)
         }
         else if (selectWhere.value !== 'null' && starRadio.length >= 1 && keyword == '') {
-            setSearch(`/main?season=${season}&location=${selectWhere.label}&star=${starRadio}`)
+            setSearch(`&location=${selectWhere.label}&star=${starRadio}`)
         }
         else if (selectWhere.value !== 'null' && starRadio.length == 0 && keyword.length >= 1) {
-            setSearch(`/main?season=${season}&location=${selectWhere.label}&keyword=${keyword}`)
+            setSearch(`&location=${selectWhere.label}&keyword=${keyword}`)
         }
         else if (selectWhere.value == 'null' && starRadio.length >= 1 && keyword.length >= 1) {
-            setSearch(`/main?season=${season}&star=${starRadio}&keyword=${keyword}`)
+            setSearch(`&star=${starRadio}&keyword=${keyword}`)
         }
         else if (selectWhere.value !== 'null' && starRadio.length >= 1 && keyword.length >= 1) {
-            setSearch(`/main?season=${season}&location=${selectWhere.label}&star=${starRadio}&keyword=${keyword}`)
+            setSearch(`&location=${selectWhere.label}&star=${starRadio}&keyword=${keyword}`)
         }
     }
-    console.log('필터링 조건:', search)
 
     return (
         <st.SearchBox>
             <div><span className='spanBold'>정렬 기준</span>
                 <sst.Row>
-                    <input type="radio" value="acs" checked={starRadio === "acs"} onChange={clickRadioHandler} />
+                    <input type="radio" value="asc" checked={starRadio === "asc"} onChange={clickRadioHandler} />
                     <label>별점 높은 순⭐</label>
                     <input type="radio" value="des" checked={starRadio === "des"} onChange={clickRadioHandler} />
                     <label>별점 낮은 순😡</label>

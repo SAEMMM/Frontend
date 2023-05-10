@@ -1,17 +1,19 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as st from './MainSt'
 import * as sst from '../share/Style'
 import axios from '../api/boardApi'
 import { useQueryClient, useQuery, useMutation } from 'react-query'
-import { deleteBoard } from '../api/boardApi'
-import { useSearchParams } from 'react-router-dom'
+import { deleteBoard, updateBoard } from '../api/boardApi'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useSearchContext } from '../contexts/SearchContext'
 
 function MainLists() {
 
+    let navigate = useNavigate()
+
     // 필터링 state
     const search = useSearchContext()
-    console.log('넘겨온 search:', search.search)
+    const filter = search.search
 
     // 현재 페이지의 query string value 추출
     const [searchParams, setSearchParams] = useSearchParams()
@@ -20,12 +22,17 @@ function MainLists() {
     const queryClient = useQueryClient()
 
     // 현재 페이지별 Api
-    const getBoard = async () => {
-        const response = await axios.get(`/api/boards?season=${season}`)
-        return response.data.data
+    const getBoard = async (filter) => {
+        if (!filter) {
+            const response = await axios.get(`/api/boards?season=${season}`)
+            return response.data.data
+        } else {
+            const response = await axios.get(`/api/boards?season=${season}${filter}`)
+            return response.data.data
+        }
     }
 
-    const { data: board } = useQuery('board', getBoard)
+    const { data: board } = useQuery(['board', season, filter], () => getBoard(filter))
 
     // 삭제 기능
     const deleteBoardMutation = useMutation(deleteBoard, {
@@ -35,7 +42,7 @@ function MainLists() {
             alert('삭제되었습니다')
         },
         onError: () => {
-            alert('게시물을 삭제할 수 없습니다')
+            alert('삭제 권한이 없습니다!')
         }
     })
 
@@ -48,6 +55,22 @@ function MainLists() {
         } else {
             return false
         }
+    }
+
+    // 수정 기능
+    const updateBoardMutation = useMutation(updateBoard, {
+        onSuccess: () => {
+            // Invalidates cache and refetch
+            queryClient.invalidateQueries('board')
+            alert('수정되었습니다')
+        },
+        onError: () => {
+            alert('수정 권한이 없습니다!')
+        }
+    })
+
+    const onClickUpdateBtn = () => {
+        navigate('/UpdateInput')
     }
 
     // 페이지별(계절) 제목 테마
@@ -79,10 +102,6 @@ function MainLists() {
         }
     }
 
-    useEffect(() => {
-        console.log(season)
-    }, [season])
-
     return (
         <>
             {
@@ -90,7 +109,7 @@ function MainLists() {
                     return (
                         <st.MainListBox key={item.id}>
                             <sst.End>
-                                <sst.Button fn="form">수정</sst.Button>
+                                <sst.Button fn="form" onClick={() => onClickUpdateBtn}>수정</sst.Button>
                                 <sst.Button fn="del"
                                     onClick={() => onClickDelBtn({ id: item.id })}>삭제</sst.Button>
                             </sst.End>
