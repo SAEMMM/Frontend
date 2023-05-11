@@ -114,7 +114,7 @@ function MainLists() {
                                     onClick={() => onClickDelBtn({ id: item.id })}>삭제</sst.Button>
                             </sst.End>
                             <st.Title season={item.season}><h1 className='TitleH1'>{item.title} {seasonIcon(item.season)}</h1></st.Title>
-                            <st.Image><st.Imageload style={{ background: `url('${item.image}')` }}></st.Imageload></st.Image>
+                            <st.Image><st.Imageload src={item.image}></st.Imageload></st.Image>
                             <sst.Row>
                                 <span className='spanbold'>별점</span>&nbsp;<st.ShowBox type="select">{starIcon(item.star)}</st.ShowBox>
                                 <span className='spanbold'>위치</span>&nbsp;<st.ShowBox type="select">{item.location}</st.ShowBox>

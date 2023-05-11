@@ -56,11 +56,10 @@ export const Title = styled.div`
 `
 
 export const Image = styled.div`
-
-background-color: silver;
 width: 700px;
 height: 400px;
 border-radius: 5px;
+
 &:hover {
     width: 800px;
     height: 500px;
@@ -68,12 +67,12 @@ border-radius: 5px;
 }
 `
 
-export const Imageload = styled.div`
+export const Imageload = styled.img`
+    text-align: center;
     width: 100%;
     height: 100%;
-    background-position: center;
-    background-size: contain;
     background-repeat: no-repeat;
+    object-fit: contain;
 `
 
 export const ShowBox = styled.div`
