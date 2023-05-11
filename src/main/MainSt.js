@@ -4,7 +4,7 @@ export const SearchBox = styled.div`
     box-sizing: border-box;
     padding: 10px;
     /* background-color: skyblue; */
-    width: 900px;
+    width: 1000px;
     height: 80px;
     display: flex;
     align-items: center;
@@ -28,7 +28,7 @@ margin-top: 20px;
 box-sizing: border-box;
 padding: 10px;
 /* background-color: skyblue; */
-width: 900px;
+width: 1000px;
 height: 700px;
 display: flex;
 flex-direction: column;
@@ -39,7 +39,7 @@ border-radius: 5px;
 -webkit-box-shadow: 5px 5px 10px 0px silver; 
 box-shadow: 5px 5px 10px 0px silver;
 &:hover {
-    width: 1000px;
+    width: 1100px;
     height: 800px;
     transition: all 0.5s;
 }
