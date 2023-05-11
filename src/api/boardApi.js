@@ -4,6 +4,7 @@ const boardApi = axios.create({
     baseURL: process.env.REACT_APP_URL
 })
 
+//확인완료
 export const addPost = async ([formData, accessToken, refreshToken]) => {
     try {
         const config = {
@@ -14,7 +15,7 @@ export const addPost = async ([formData, accessToken, refreshToken]) => {
         }
         return await boardApi.post("/api/board", formData, config)
     } catch (error) {
-        if (axios.isAxiosError(error) && error.response.status === 401) {
+        if (error.response.status === 401) {
             try {
                 const response = await boardApi.post("/api/board", formData, {
                     headers: {
@@ -37,11 +38,15 @@ export const addPost = async ([formData, accessToken, refreshToken]) => {
                 sessionStorage.removeItem("accessToken");
                 sessionStorage.removeItem("nickname");
                 sessionStorage.removeItem("isLogin");
+                alert('로그인이 필요합니다')
             }
+        } else {
+            alert('로그인이 필요합니다')
         }
     }
 }
 
+//확인완료
 export const deleteBoard = async ([id, accessToken, refreshToken]) => {
     try {
         const config = {
@@ -52,9 +57,9 @@ export const deleteBoard = async ([id, accessToken, refreshToken]) => {
         }
         return await boardApi.delete(`/api/boards/${id}`, config)
     } catch (error) {
-        if (axios.isAxiosError(error) && error.response.status === 401) {
+        if (error.response.status === 401) {
             try {
-                const response = await boardApi.delete(`/api/boards/${id}`, {
+                const response = await boardApi.get(`/api/boards/${id}`, {
                     headers: {
                         "Authorization": accessToken,
                         "RefreshToken": refreshToken,
@@ -75,11 +80,19 @@ export const deleteBoard = async ([id, accessToken, refreshToken]) => {
                 sessionStorage.removeItem("accessToken");
                 sessionStorage.removeItem("nickname");
                 sessionStorage.removeItem("isLogin");
+                alert('삭제 권한이 없습니다')
             }
-        } else if (axios.isAxiosError(error) && error.response.status === 400) { alert('삭제 권한이 없습니다')}
+        } else {
+            // sessionStorage.removeItem("refreshToken");
+            // sessionStorage.removeItem("accessToken");
+            // sessionStorage.removeItem("nickname");
+            // sessionStorage.removeItem("isLogin");
+            alert('삭제 권한이 없습니다')
+        }
     }
 }
 
+//확인완료??
 export const updateBoard = async ([id, board, accessToken, refreshToken]) => {
     try {
         const config = {
@@ -90,7 +103,7 @@ export const updateBoard = async ([id, board, accessToken, refreshToken]) => {
         }
         return await boardApi.put(`/api/boards/${id}`, board, config)
     } catch (error) {
-        if (axios.isAxiosError(error) && error.response.status === 401) {
+        if (error.response.status === 401) {
             try {
                 const response = boardApi.put(`/api/boards/${id}`, board, {
                     headers: {
@@ -113,9 +126,15 @@ export const updateBoard = async ([id, board, accessToken, refreshToken]) => {
                 sessionStorage.removeItem("accessToken");
                 sessionStorage.removeItem("nickname");
                 sessionStorage.removeItem("isLogin");
+                alert('등록권한이 없습니다')
             }
+        } else {
+            // sessionStorage.removeItem("refreshToken");
+            // sessionStorage.removeItem("accessToken");
+            // sessionStorage.removeItem("nickname");
+            // sessionStorage.removeItem("isLogin");
+            alert('등록권한이 없습니다');
         }
-
     }
 }
 
@@ -130,7 +149,7 @@ export const beforeUpdate = async ([id, accessToken, refreshToken]) => {
         const response = await boardApi.get(`/api/boards/${id}`, config)
         return response.data.data
     } catch (error) {
-        if (axios.isAxiosError(error) && error.response.status === 401) {
+        if (error.response.status === 401) {
             try {
                 const response = boardApi.get(`/api/boards/${id}`, {
                     headers: {
@@ -153,7 +172,10 @@ export const beforeUpdate = async ([id, accessToken, refreshToken]) => {
                 sessionStorage.removeItem("accessToken");
                 sessionStorage.removeItem("nickname");
                 sessionStorage.removeItem("isLogin");
+                alert('수정권한이 없습니다')
             }
+        } else {
+            alert('등록권한이 없습니다');
         }
     }
 }
