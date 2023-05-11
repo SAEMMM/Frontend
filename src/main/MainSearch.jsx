@@ -32,7 +32,6 @@ function MainSearch() {
 
     const [keyword, setKeyword] = useState('')
 
-    // const [search, setSearch] = useState('')
     const searchSubmit = () => {
         if (selectWhere.value == 'null' && starRadio.length == 0 && keyword == '') {
             alert("한가지 이상의 조건을 선택하신 후, '검색하기'를 눌러주세요 😉")
@@ -60,6 +59,13 @@ function MainSearch() {
         }
     }
 
+    const searchCancle = () => {
+        setKeyword('')
+        setStarRadio('')
+        setSelectWhere('')
+        setSearch('')
+    }
+
     return (
         <st.SearchBox>
             <div><span className='spanBold'>정렬 기준</span>
@@ -75,7 +81,7 @@ function MainSearch() {
             <sst.Row>
                 <sst.Column><span className='spanBold'>키워드 검색</span> <sst.Input value={keyword} onChange={(e) => setKeyword(e.target.value)} /></sst.Column>
                 <sst.Button onClick={() => searchSubmit()}>검색하기</sst.Button>
-                <sst.Button>취소하기</sst.Button>
+                <sst.Button onClick={() => searchCancle()}>취소하기</sst.Button>
             </sst.Row>
         </st.SearchBox>
     )
