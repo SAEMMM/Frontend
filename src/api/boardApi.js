@@ -24,14 +24,14 @@ export const deleteBoard = async ([id, accessToken, refreshToken]) => {
     return await boardApi.delete(`/api/boards/${id}`, config)
 }
 
-export const updateBoard = async ([board, accessToken, refreshToken]) => {
+export const updateBoard = async ([id, board, accessToken, refreshToken]) => {
     const config = {
         headers: {
             "Authorization": accessToken,
             "RefreshToken": refreshToken
         }
     } 
-    return await boardApi.patch(`/api/boards/${board.id}`, board, config)
+    return await boardApi.put(`/api/boards/${id}`, board, config)
 }
 
 export const beforeUpdate = async ([id, accessToken, refreshToken]) => {

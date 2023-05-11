@@ -6,8 +6,7 @@ import axios from '../api/boardApi'
 import SelectStar from './SelectStar';
 import SelectSeason from './SelectSeason';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { beforeUpdate } from '../api/boardApi';
-import useInput from '../hooks/useInput';
+import { beforeUpdate, updateBoard } from '../api/boardApi';
 import { useNavigate, useParams } from 'react-router-dom';
 
 function UpdateInput() {
@@ -32,151 +31,116 @@ function UpdateInput() {
             }
             const response = await axios.get(`/api/boards/${id}`, config)
             return response.data.data
-        } catch (error) {
-            console.log(error)
+        } catch (err) {
+            if (!err?.response) {
+                alert('서버의 응답이 없습니다')
+            } else if (err.response?.status === 401) {
+                alert('본인이 작성한 게시물만 수정이 가능합니다')
+                navigate(-1)
+            } else {
+                alert('오류가 발생했습니다')
+            }
         }
     }
-
-    // console.log("1" + beforeUpdate([id, accessToken, refreshToken]).then((res) => {
-    //     console.log(res)
-    // }))
-
+    
     const { data: getBefore } = useQuery('getBefore', beforeUpdate)
 
-    const [title, titleHandler, resetTitle] = useInput('')
-    const [location, locationHandler, resetLocation] = useInput('')
-    const [content, contentHandler, resetContent] = useInput('')
-    const [placename, placenameHandler, resetPlace] = useInput('')
-    const [star, starHandler, resetStar] = useInput('')
-    const [season, seasonHandler, resetSeason] = useInput('')
+    const [title, setTitle] = useState(getBefore?.title)
+    const [content, setContent] = useState(getBefore?.content)
+    const [placename, setPlacename] = useState(getBefore?.placename)
+    const [location, setLocation] = useState(getBefore?.location);
+    const [season, setSeason] = useState(getBefore?.season);
+    const [star, setStar] = useState(getBefore?.star);
 
-    // const [atitle, setTitle] = useState(getBefore.title)
+    const updateTodoMutation = useMutation(updateBoard, {
+        onSuccess: () => {
+            // Invalidates cache and refetch
+            queryClient.invalidateQueries("board")
+        }
+    })
 
-    // console.log("2" + getBefore)
-    // console.log("3" + getBefore.title)
+    const handleLocation = (SelectedLocation) => {
+        setLocation(SelectedLocation)
+    }
 
-    // const [title, setTitle] = useState('')
+    const handleSeason = (SelectedSeason) => {
+        setSeason(SelectedSeason)
+    }
 
-    // console.log(title)
-    // const [content, contentHandler, resetContent] = useInput('')
-    // const [placename, placenameHandler, resetPlace] = useInput('')
-    // const [image, setImage] = useState(null);
-    // const [location, setLocation] = useState('');
-    // const [season, setSeason] = useState('');
-    // const [star, setStar] = useState('');
+    const handleStar = (SelectedStar) => {
+        setStar(SelectedStar)
+    }
 
-    // const mutation = useMutation(beforeUpdate)
+    const submitHandler = async (e, id) => {
+        e.preventDefault();
 
-    // const handleLocation = (SelectedLocation) => {
-    //     setLocation(SelectedLocation)
-    // }
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('content', content);
+        formData.append('star', star);
+        formData.append('location', location);
+        formData.append('placename', placename);
+        formData.append('season', season);
 
-    // const handleSeason = (SelectedSeason) => {
-    //     setSeason(SelectedSeason)
-    // }
+        if (!title || !content || !star || !location || !placename || !season ) {
+            alert("모든 내용을 입력해주세요")
+            return;
+        }
 
-    // const handleStar = (SelectedStar) => {
-    //     setStar(SelectedStar)
-    // }
+        const accessToken = localStorage.getItem('accessToken');
+        const refreshToken = localStorage.getItem('refreshToken');
 
-    // const submitHandler = async (e) => {
-    //     e.preventDefault();
+        updateTodoMutation.mutate([id, formData, accessToken, refreshToken]);
+        alert("등록되었습니다")
+        navigate(`/main?season=${season}`)
+    }
 
-    //     const formData = new FormData();
-    //     formData.append('title', title);
-    //     formData.append('content', content);
-    //     formData.append('star', star);
-    //     formData.append('location', location);
-    //     formData.append('placename', placename);
-    //     formData.append('season', season);
-
-        // if (image) {
-        //     formData.append('image', image.raw);
-        // }
-
-    //     if (!title || !content || !star || !location || !placename || !season ) {
-    //         alert("모든 내용을 입력해주세요")
-    //         return;
-    //     }
-
-    //     const accessToken = localStorage.getItem('accessToken');
-    //     const refreshToken = localStorage.getItem('refreshToken');
-
-    //     await mutation.mutateAsync([formData, accessToken, refreshToken]);
-    //     alert("등록되었습니다")
-    //     navigate(`/main?season=${season}`)
-    // }
-
-    // const handleImageChange = (e) => {
-    //     if (e.target.files.length) {
-    //         const file = e.target.files[0]
-    //         const fileReader = new FileReader();
-    //         fileReader.readAsDataURL(e.target.files[0]);
-    //         fileReader.onloadend = () => {
-    //             setImage({
-    //                 preview: fileReader.result,
-    //                 raw: file
-    //             });
-    //         };
-    //     }
-    // };
-    
     return (
-        <form>
-            <st.BodyStyle>
-                <st.InputStyle
-                    width="70%"
-                    height='50px'
-                    name='title'
-                    type='text'
-                    value={getBefore?.title}
-                    onChange={titleHandler}
-                    placeholder='제목을 작성해주세요' />
+        <st.BodyStyle>
+            <st.InputStyle
+                width="70%"
+                height='50px'
+                name='title'
+                type='text'
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder='제목을 작성해주세요' />
 
-                {/* {image ? (
-                    <st.ImageWrapper>
-                        <img src={image.preview} alt="uploaded" />
-                    </st.ImageWrapper>
-                ) : <st.ImagePlaceholder>이미지를 추가해주세요</st.ImagePlaceholder>} */}
-{/* 
-                <st.InputStyle
-                    width="70%"
-                    height='50px'
-                    name='image'
-                    type='file'
-                    onChange={handleImageChange} /> */}
-{/* 
-                <SelectLocation value={getBefore?.location} setLocation={handleLocation} />
 
-                <SelectSeason value={getBefore?.season} setSeason={handleSeason} /> */}
+            <st.ImageWrapper>
+                <img src={getBefore?.image} alt="uploaded" />
+            </st.ImageWrapper>
 
-                <st.InputStyle
-                    width="70%"
-                    height='50px'
-                    name='placename'
-                    type='text'
-                    value={getBefore?.placename}
-                    onChange={placenameHandler}
-                    placeholder='장소 이름' />
+            <SelectLocation value={location} setLocation={handleLocation} />
 
-                {/* <SelectStar value={getBefore?.star} setStar={handleStar} /> */}
+            <SelectSeason value={season} setSeason={handleSeason} />
 
-                <st.InputStyle
-                    width="70%"
-                    height='100px'
-                    name='content'
-                    type='text'
-                    value={getBefore?.content}
-                    onChange={contentHandler}
-                    placeholder='내용을 작성해주세요' />
+            <st.InputStyle
+                width="70%"
+                height='50px'
+                name='placename'
+                type='text'
+                value={placename}
+                onChange={(e) => setPlacename(e.target.value)}
+                placeholder='장소 이름' />
 
-                <st.Row>
-                    <sst.Button fn="form">완료</sst.Button>
-                    <sst.Button fn="del" onClick={() => navigate(-1)}>취소</sst.Button>
-                </st.Row>
-            </st.BodyStyle>
-        </form>
-    )      
+            <SelectStar value={star} setStar={handleStar} />
+
+            <st.InputStyle
+                width="70%"
+                height='100px'
+                name='content'
+                type='text'
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                placeholder='내용을 작성해주세요' />
+
+            <st.Row>
+                <sst.Button fn="form" id={getBefore?.id} onClick={(e) => submitHandler(e, id)}>완료</sst.Button>
+                <sst.Button fn="del" onClick={() => navigate('/main?season=spring')}>취소</sst.Button>
+            </st.Row>
+        </st.BodyStyle>
+    )
 }
 
 export default UpdateInput

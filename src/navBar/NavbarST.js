@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const NavBox = styled.div`
 /* position: relative; */
-width: 900px;
+width: 1000px;
 height: 60px;
 background-color: #f1f1f1;
 display: flex;

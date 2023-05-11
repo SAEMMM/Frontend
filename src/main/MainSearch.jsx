@@ -64,9 +64,9 @@ function MainSearch() {
         <st.SearchBox>
             <div><span className='spanBold'>정렬 기준</span>
                 <sst.Row>
-                    <input type="radio" value="asc" checked={starRadio === "asc"} onChange={clickRadioHandler} />
-                    <label>별점 높은 순⭐</label>
                     <input type="radio" value="des" checked={starRadio === "des"} onChange={clickRadioHandler} />
+                    <label>별점 높은 순⭐</label>
+                    <input type="radio" value="asc" checked={starRadio === "asc"} onChange={clickRadioHandler} />
                     <label>별점 낮은 순😡</label>
                 </sst.Row></div>
             <div><span className='spanBold'>위치 선택</span>
@@ -75,6 +75,7 @@ function MainSearch() {
             <sst.Row>
                 <sst.Column><span className='spanBold'>키워드 검색</span> <sst.Input value={keyword} onChange={(e) => setKeyword(e.target.value)} /></sst.Column>
                 <sst.Button onClick={() => searchSubmit()}>검색하기</sst.Button>
+                <sst.Button>취소하기</sst.Button>
             </sst.Row>
         </st.SearchBox>
     )
