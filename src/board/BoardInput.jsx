@@ -33,7 +33,7 @@ function BoardInput() {
         setStar(SelectedStar)
     }
 
-    const isLogin = localStorage.getItem('isLogin')
+    const isLogin = sessionStorage.getItem('isLogin')
 
     const mutation = useMutation(addPost, {
         onError: () => {
@@ -61,8 +61,8 @@ function BoardInput() {
             alert("모든 내용을 입력해주세요")
             return;
         } else {
-            const accessToken = localStorage.getItem('accessToken');
-            const refreshToken = localStorage.getItem('refreshToken');
+            const accessToken = sessionStorage.getItem('accessToken');
+            const refreshToken = sessionStorage.getItem('refreshToken');
 
             await mutation.mutateAsync([formData, accessToken, refreshToken]);
             alert("등록되었습니다")

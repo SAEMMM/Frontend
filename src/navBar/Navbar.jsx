@@ -8,14 +8,14 @@ function NavBar() {
 
     const mutation = useMutation(logout)
 
-    const accessToken = localStorage.getItem('accessToken');
-    const refreshToken = localStorage.getItem('refreshToken');
-    const nickname = localStorage.getItem('nickname');
-    const isLogin = localStorage.getItem('isLogin');
+    const accessToken = sessionStorage.getItem('accessToken');
+    const refreshToken = sessionStorage.getItem('refreshToken');
+    const nickname = sessionStorage.getItem('nickname');
+    const isLogin = sessionStorage.getItem('isLogin');
 
     const logoutHandler = () => {
         mutation.mutateAsync([accessToken, refreshToken]);
-        localStorage.setItem('isLogin', 'isLogout');
+        sessionStorage.setItem('isLogin', 'isLogout');
     }
 
     const navigate = useNavigate();

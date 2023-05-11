@@ -18,7 +18,7 @@ function Logins() {
         onSuccess: () => {
             alert('로그인 성공')
             navigation('/')
-            localStorage.setItem('isLogin', 'isLogin')
+            sessionStorage.setItem('isLogin', 'isLogin')
         }
     })
 

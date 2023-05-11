@@ -6,14 +6,14 @@ const loginApi = axios.create({
 
 export const login = async (userData) => {
     // try {
-        const response = await loginApi.post("/api/user/login", userData);
-        const accessToken = response.headers.authorization;
-        const refreshToken = response.headers.refreshtoken;
-        const nickname = response.data.data.nickname;
-        localStorage.setItem("refreshToken", refreshToken);
-        localStorage.setItem("accessToken", accessToken);
-        localStorage.setItem("nickname", nickname);
-        return response
+    const response = await loginApi.post("/api/user/login", userData);
+    const accessToken = response.headers.authorization;
+    const refreshToken = response.headers.refreshtoken;
+    const nickname = response.data.data.nickname;
+    sessionStorage.setItem("refreshToken", refreshToken);
+    sessionStorage.setItem("accessToken", accessToken);
+    sessionStorage.setItem("nickname", nickname);
+    return response
     // } catch (error) { 
     //     alert("아이디와 비밀번호를 확인해주세요")
     // }
@@ -26,14 +26,33 @@ export const logout = async ([accessToken, refreshToken]) => {
                 "Authorization": accessToken,
                 "RefreshToken": refreshToken
             }
-        } 
+        }
         await loginApi.get("/api/user/logout", config)
-        localStorage.removeItem("refreshToken");
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("nickname");
+        sessionStorage.removeItem("refreshToken");
+        sessionStorage.removeItem("accessToken");
+        sessionStorage.removeItem("nickname");
         return;
     } catch (error) {
-        throw new Error('로그아웃에 실패하였습니다')
+        if (axios.isAxiosError(error) && error.response.status === 401) {
+            try {
+                const response = await logout.get("/api/user/login", {
+                    headers: {
+                        "Authorization": accessToken,
+                        "RefreshToken": refreshToken,
+                    }
+                });
+                const newAccessToken = response.headers.authorization;
+                const newRefreshToken = response.headers.refreshtoken;
+                sessionStorage.setItem("accessToken", newAccessToken)
+                sessionStorage.setItem("refreshToken", newRefreshToken)
+                await logout([newAccessToken, newRefreshToken]);
+            } catch (error) {
+                sessionStorage.removeItem("refreshToken");
+                sessionStorage.removeItem("accessToken");
+                sessionStorage.removeItem("nickname");
+                sessionStorage.removeItem("isLogin");
+            }
+        }
     }
 }
 

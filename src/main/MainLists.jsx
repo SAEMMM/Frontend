@@ -46,8 +46,8 @@ function MainLists() {
         }
     })
 
-    const accessToken = localStorage.getItem('accessToken');
-    const refreshToken = localStorage.getItem('refreshToken');
+    const accessToken = sessionStorage.getItem('accessToken');
+    const refreshToken = sessionStorage.getItem('refreshToken');
 
     const onClickDelBtn = (id) => {
         if (window.confirm('삭제하시겠습니까?')) {

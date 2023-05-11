@@ -18,8 +18,8 @@ function UpdateInput() {
 
     let { id } = useParams();
 
-    const accessToken = localStorage.getItem('accessToken')
-    const refreshToken = localStorage.getItem('refreshToken')
+    const accessToken = sessionStorage.getItem('accessToken')
+    const refreshToken = sessionStorage.getItem('refreshToken')
 
     // 현재 페이지별 Api
     const beforeUpdate = async () => {
@@ -99,8 +99,8 @@ function UpdateInput() {
     //         return;
     //     }
 
-    //     const accessToken = localStorage.getItem('accessToken');
-    //     const refreshToken = localStorage.getItem('refreshToken');
+    //     const accessToken = sessionStorage.getItem('accessToken');
+    //     const refreshToken = sessionStorage.getItem('refreshToken');
 
     //     await mutation.mutateAsync([formData, accessToken, refreshToken]);
     //     alert("등록되었습니다")
