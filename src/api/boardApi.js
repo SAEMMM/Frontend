@@ -80,7 +80,7 @@ export const deleteBoard = async ([id, accessToken, refreshToken]) => {
     }
 }
 
-export const updateBoard = async ([board, accessToken, refreshToken]) => {
+export const updateBoard = async ([id, board, accessToken, refreshToken]) => {
     try {
         const config = {
             headers: {
@@ -88,11 +88,11 @@ export const updateBoard = async ([board, accessToken, refreshToken]) => {
                 "RefreshToken": refreshToken
             }
         }
-        return await boardApi.patch(`/api/boards/${board.id}`, board, config)
+        return await boardApi.put(`/api/boards/${id}`, board, config)
     } catch (error) {
         if (axios.isAxiosError(error) && error.response.status === 401) {
             try {
-                const response = boardApi.patch(`/api/boards/${board.id}`, board, {
+                const response = boardApi.put(`/api/boards/${id}`, board, {
                     headers: {
                         "Authorization": accessToken,
                         "RefreshToken": refreshToken,
@@ -102,7 +102,7 @@ export const updateBoard = async ([board, accessToken, refreshToken]) => {
                 const newRefreshToken = response.headers.refreshtoken;
                 sessionStorage.setItem("accessToken", newAccessToken)
                 sessionStorage.setItem("refreshToken", newRefreshToken)
-                await boardApi.patch(`/api/boards/${board.id}`, board, {
+                await boardApi.put(`/api/boards/${id}`, board, {
                     headers: {
                         "Authorization": newAccessToken,
                         "RefreshToken": newRefreshToken
