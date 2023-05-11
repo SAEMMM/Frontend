@@ -62,7 +62,7 @@ function MainSearch() {
     const searchCancle = () => {
         setKeyword('')
         setStarRadio('')
-        setSelectWhere('')
+        setSelectWhere(searchWhere[0])
         setSearch('')
     }
 
