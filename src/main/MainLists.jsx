@@ -58,19 +58,23 @@ function MainLists() {
     }
 
     // 수정 기능
-    const updateBoardMutation = useMutation(updateBoard, {
-        onSuccess: () => {
-            // Invalidates cache and refetch
-            queryClient.invalidateQueries('board')
-            alert('수정되었습니다')
-        },
-        onError: () => {
-            alert('수정 권한이 없습니다!')
-        }
-    })
+    // const updateBoardMutation = useMutation(updateBoard, {
+    //     onSuccess: () => {
+    //         // Invalidates cache and refetch
+    //         queryClient.invalidateQueries('board')
+    //         // alert('수정되었습니다')
+    //     },
+        // onError: () => {
+        //     alert('수정 권한이 없습니다!')
+        // }
+    // })
 
     const onClickUpdateBtn = ({id}) => {
-        navigate(`/board/${id}`)
+        if (window.confirm('수정하시겠습니까?')){
+            navigate(`/board/${id}`)
+        } else {
+            return false
+        } 
     }
 
     // 페이지별(계절) 제목 테마
