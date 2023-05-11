@@ -10,9 +10,9 @@ export const login = async (userData) => {
     const accessToken = response.headers.authorization;
     const refreshToken = response.headers.refreshtoken;
     const nickname = response.data.data.nickname;
-    localStorage.setItem("refreshToken", refreshToken);
-    localStorage.setItem("accessToken", accessToken);
-    localStorage.setItem("nickname", nickname);
+    sessionStorage.setItem("refreshToken", refreshToken);
+    sessionStorage.setItem("accessToken", accessToken);
+    sessionStorage.setItem("nickname", nickname);
     return response
     // } catch (error) { 
     //     alert("아이디와 비밀번호를 확인해주세요")
@@ -28,28 +28,29 @@ export const logout = async ([accessToken, refreshToken]) => {
             }
         }
         await loginApi.get("/api/user/logout", config)
-        localStorage.removeItem("refreshToken");
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("nickname");
+        sessionStorage.removeItem("refreshToken");
+        sessionStorage.removeItem("accessToken");
+        sessionStorage.removeItem("nickname");
         return;
     } catch (error) {
         if (axios.isAxiosError(error) && error.response.status === 401) {
             try {
-                const response = await loginApi.post("/api/user/login", {
+                const response = await logout.get("/api/user/login", {
                     headers: {
                         "Authorization": accessToken,
                         "RefreshToken": refreshToken,
                     }
                 });
                 const newAccessToken = response.headers.authorization;
-                const newRefreshToken = response.headers.refreshToken;
-                localStorage.setItem("accessToken", newAccessToken)
-                localStorage.setItem("refreshToken", newRefreshToken)
+                const newRefreshToken = response.headers.refreshtoken;
+                sessionStorage.setItem("accessToken", newAccessToken)
+                sessionStorage.setItem("refreshToken", newRefreshToken)
                 await logout([newAccessToken, newRefreshToken]);
             } catch (error) {
-                localStorage.removeItem("refreshToken");
-                localStorage.removeItem("accessToken");
-                localStorage.removeItem("nickname");
+                sessionStorage.removeItem("refreshToken");
+                sessionStorage.removeItem("accessToken");
+                sessionStorage.removeItem("nickname");
+                sessionStorage.removeItem("isLogin");
             }
         }
     }
